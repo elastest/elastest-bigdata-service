@@ -1,46 +1,72 @@
+[![License badge](https://img.shields.io/badge/license-Apache2-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Documentation badge](https://img.shields.io/badge/docs-latest-brightgreen.svg)](http://elastest.io/docs/)
+
 [![][ElasTest Logo]][ElasTest]
 
-Copyright © 2017-2019 [ElasTest]. Licensed under [Apache 2.0 License].
+Copyright © 2017-2019 [<member>]. Licensed under
+[Apache 2.0 License].
 
-elastest-monitoring-service (ems)
-==============================
+<repository_name>
+=================
 
-ElasTest Monitoring Service.
+<repository_description>
 
-# What is ElasTest
+What is ElasTest
+-----------------
 
-This repository is part of [ElasTest], which is an open source elastic platform
-aimed to simplify end-to-end testing. ElasTest platform is based on three
-principles: i) Test orchestration: Combining intelligently testing units for
-creating a more complete test suite following the “divide and conquer” principle.
-ii) Instrumentation and monitoring: Customizing the SuT (Subject under Test)
-infrastructure so that it reproduces real-world operational behavior and allowing
-to gather relevant information during testing. iii) Test recommendation: Using machine
-learning and cognitive computing for recommending testing actions and providing
-testers with friendly interactive facilities for decision taking.
+This repository is part of [ElasTest], which is a flexible open source testing
+platform aimed to simplify the end-to-end testing processes for different types
+of applications, including web and mobile, among others.
 
-# Documentation
+The objective of ElasTest is to provide advance testing capabilities aimed to
+increase the scalability, robustness, security and quality of experience of
+large distributed systems. All in all, ElasTest will make any software
+development team capable of delivering software faster and with fewer defects.
 
-The [ElasTest] project provides detailed documentation including tutorials,
-installation and development guide.
+Documentation
+-------------
 
-# Source
+The ElasTest project provides detailed [documentation][ElasTest Doc] including
+tutorials, installation and development guide.
+
+Source
+------
+
 Source code for other ElasTest projects can be found in the [GitHub ElasTest
 Group].
 
-# Support
-If you need help and support with the EMS, please refer to the ElasTest [Bugtracker]. 
-Here you can find the help you need.
+News
+----
 
-# News
-Follow us on Twitter @[ElasTest Twitter].
+Check the [ElasTest Blog] and follow us on Twitter [@elastestio][ElasTest Twitter].
 
-# Contribution policy
+Issue tracker
+-------------
+
+Issues and bug reports should be posted to the [GitHub ElasTest Bugtracker].
+
+Licensing and distribution
+--------------------------
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contribution policy
+-------------------
+
 You can contribute to the ElasTest community through bug-reports, bug-fixes,
 new code or new documentation. For contributing to the ElasTest community,
-you can use the issue support of GitHub providing full information about your
-contribution and its value. In your contributions, you must comply with the
-following guidelines
+you can use GitHub, providing full information about your contribution and its
+value. In your contributions, you must comply with the following guidelines
 
 * You must specify the specific contents of your contribution either through a
   detailed bug description, through a pull-request or through a patch.
@@ -56,23 +82,26 @@ following guidelines
   before it being incorporated into the ElasTest code-base. You must be ready
   to addressing all these kind of concerns before having your code approved.
 
-# Licensing and distribution
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Support
+-------
 
-  http://www.apache.org/licenses/LICENSE-2.0
+The ElasTest project provides community support through the [ElasTest Public
+Mailing List] and through [StackOverflow] using the tag *elastest*.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 
+<p align="center">
+  <img src="http://elastest.io/images/logos_elastest/ue_logo-small.png"><br>
+  Funded by the European Union
+</p>
 
 [Apache 2.0 License]: http://www.apache.org/licenses/LICENSE-2.0
 [ElasTest]: http://elastest.io/
+[ElasTest Blog]: http://elastest.io/blog/
+[ElasTest Doc]: http://elastest.io/docs/
 [ElasTest Logo]: http://elastest.io/images/logos_elastest/elastest-logo-gray-small.png
+[ElasTest Public Mailing List]: https://groups.google.com/forum/#!forum/elastest-users
 [ElasTest Twitter]: https://twitter.com/elastestio
 [GitHub ElasTest Group]: https://github.com/elastest
-[Bugtracker]: https://github.com/elastest/bugtracker
+[GitHub ElasTest Bugtracker]: https://github.com/elastest/bugtracker
+[StackOverflow]: http://stackoverflow.com/questions/tagged/elastest
+[<member>]: <member_url>
