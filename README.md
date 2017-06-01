@@ -6,10 +6,17 @@
 Copyright © 2017-2019 [<member>]. Licensed under
 [Apache 2.0 License].
 
-<repository_name>
+elastest-bigdata-service
 =================
+The EBS is responsible for installing, uninstalling, starting, stopping and managing the different big data services available for the whole ElasTest platform.
+The big data services under the responsibility of EBS are the following:
+- HDFS (HADOOP)
+- ElasticSearch (big data responsibilities)
+- Files storage (big data from EPS)
+- Spark-submit
+- *Time series database (Prometheus) 
 
-<repository_description>
+*Still under discussion
 
 What is ElasTest
 -----------------
