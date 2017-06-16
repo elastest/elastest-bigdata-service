@@ -33,3 +33,11 @@ RUN apt-get-install -y python3 python3-setuptools python3-pip
 # Fix the value of PYTHONHASHSEED
 # Note: this is needed when you use Python 3.3 or greater
 ENV PYTHONHASHSEED 1
+
+RUN cd / \
+	&& wget http://alluxio.org/downloads/files/1.5.0/alluxio-1.5.0-bin.tar.gz \
+	&& tar xvfz alluxio-1.5.0-bin.tar.gz \
+	&& rm alluxio-1.5.0-bin.tar.gz \
+	&& mv alluxio-1.5.0 alluxio
+
+ENV PATH "$PATH:/alluxio/bin:/spark/bin"

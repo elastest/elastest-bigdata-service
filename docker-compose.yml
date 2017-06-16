@@ -12,7 +12,7 @@ services:
       - ./spark/config/hadoop.env
     volumes:
       - ./spark/config:/spark/conf
-      - ./alluxio:/alluxio
+      # - ./alluxio:/alluxio
     environment:
       - ALLUXIO_MASTER_HOSTNAME=alluxio-master
     networks:
@@ -31,7 +31,7 @@ services:
       - ./spark/config/hadoop.env
     volumes:
       - ./spark/config:/spark/conf
-      - ./alluxio:/alluxio
+      # - ./alluxio:/alluxio
     networks:
       - elastestdatamanager_elastest
 
