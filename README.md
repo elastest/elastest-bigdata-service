@@ -76,17 +76,17 @@ You can try the following examples:
 	cd /spark
 
 	# Upload file to Alluxio Local Filesystem
-	/alluxio/bin/alluxio fs copyFromLocal README.md /
+	alluxio fs copyFromLocal README.md /
 
 	# Upload file to Alluxio HDFS
-	/alluxio/bin/alluxio fs copyFromLocal README.md /hdfs
+	alluxio fs copyFromLocal README.md /hdfs
 
 	# List Alluxio HDFS root
-	/alluxio/bin/alluxio fs ls /hdfs
+	alluxio fs ls /hdfs
 	# (You should be able to see the README.md file in the list)
 
 	# Start spark-shell
-	/spark/bin/spark-shell
+	spark-shell
 	
 	# The following commands must be typed inside spark-shell at the "scala>" command prompt
 	
