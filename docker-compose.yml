@@ -1,0 +1,58 @@
+version: '2' 
+
+services:
+
+  spark-master:
+    image: sgioldasis/elastest-spark-master:2.1.0
+    # container_name: spark-master
+    ports:
+      - 8080:8080
+      - 7077:7077
+    env_file:
+      - ./spark/config/hadoop.env
+    volumes:
+      - ./spark/config:/spark/conf
+      - ./alluxio:/alluxio
+    environment:
+      - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+    networks:
+      - elastestdatamanager_elastest
+
+  spark-worker:
+    image: sgioldasis/elastest-spark-worker:2.1.0
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+    ports:
+      - "8081"
+    env_file:
+      - ./spark/config/hadoop.env
+    volumes:
+      - ./spark/config:/spark/conf
+      - ./alluxio:/alluxio
+    networks:
+      - elastestdatamanager_elastest
+
+networks:
+  elastestdatamanager_elastest:
+    external: true
+
+
+#Creating network "elastestdatamanager_elastest" with driver "bridge"
+
+
+  # spark-notebook:
+  #   image: bde2020/spark-notebook:2.1.0-hadoop2.8-hive
+  #   container_name: spark-notebook
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 9001:9001
+  # hue:
+  #   image: bde2020/hdfs-filebrowser:3.11
+  #   ports:
+  #     - 8088:8088
+  #   environment:
+  #     - NAMENODE_HOST=namenode
