@@ -62,6 +62,30 @@ If you want to increase the number of Spark worker nodes in your cluster
 
     docker-compose scale spark-worker=<number of instances>
 
+
+### Submitting a job by spark-submit
+You can try the following examples:
+
+	# From main project folder
+	
+	# Get a shell inside Spark Master container
+	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
+
+	# Change directory to spark project folder
+	cd /spark
+
+	# Upload file to Alluxio Local Filesystem
+	spark-submit --class org.apache.spark.examples.SparkPi --master spark://spark-master:7077 examples/jars/spark-examples_2.11-2.1.0.jar 100
+	
+After some processing messages, you will be able to see the output:
+
+	Pi is roughly 3.1422263142226314
+
+
+After you finish, exit the Spark Master container:
+
+	exit
+
 ### Accessing the spark-shell
 Note: The Alluxio REST API is available at http://localhost:39999
 
