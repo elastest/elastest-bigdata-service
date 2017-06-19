@@ -74,16 +74,19 @@ You can try the following examples:
 	# Change directory to spark project folder
 	cd /spark
 
-	# Upload file to Alluxio Local Filesystem
+	# Submit a Java/Scala example (jar file)
 	spark-submit --class org.apache.spark.examples.SparkPi --master spark://spark-master:7077 examples/jars/spark-examples_2.11-2.1.0.jar 100
 	
-After some processing messages, you will be able to see the output:
-
+	# After some processing messages, you will be able to see the output:
 	Pi is roughly 3.1422263142226314
+	
+	# Submit a Python example
+	spark-submit --master spark://spark-master:7077 examples/src/main/python/pi.py 10
+	
+	# After some processing messages, you will be able to see the output:
+	Pi is roughly 3.143703
 
-
-After you finish, exit the Spark Master container:
-
+	# After you finish, exit the Spark Master container:
 	exit
 
 ### Accessing the spark-shell
