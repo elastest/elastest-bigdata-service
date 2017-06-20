@@ -62,33 +62,6 @@ If you want to increase the number of Spark worker nodes in your cluster
 
     docker-compose scale spark-worker=<number of instances>
 
-
-### Submitting a job by spark-submit
-You can try the following examples:
-
-	# From main project folder
-	
-	# Get a shell inside Spark Master container
-	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
-
-	# Change directory to spark project folder
-	cd /spark
-
-	# Submit a Java/Scala example (jar file)
-	spark-submit --class org.apache.spark.examples.SparkPi --master spark://spark-master:7077 examples/jars/spark-examples_2.11-2.1.0.jar 100
-	
-	# After some processing messages, you will be able to see the output:
-	Pi is roughly 3.1422263142226314
-	
-	# Submit a Python example
-	spark-submit --master spark://spark-master:7077 examples/src/main/python/pi.py 10
-	
-	# After some processing messages, you will be able to see the output:
-	Pi is roughly 3.143703
-
-	# After you finish, exit the Spark Master container:
-	exit
-
 ### Accessing the spark-shell
 Note: The Alluxio REST API is available at http://localhost:39999
 
@@ -151,6 +124,44 @@ You can try the following examples:
 	double.saveAsTextFile("alluxio://alluxio-master:19998/hdfs/README.double")
 	
 	# Finally, exit the Spark Master container
+	exit
+
+
+### Submit a batch job using spark-submit
+You can try the following examples:
+
+	# From main project folder
+	
+	# Get a shell inside Spark Master container
+	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
+
+	# Change directory to spark project folder
+	cd /spark
+
+	# Example 1: Submit a Java/Scala job locally
+	spark-submit --class org.apache.spark.examples.SparkPi --master spark://spark-master:7077 examples/jars/spark-examples_2.11-2.1.1.jar 100
+	
+	# After some processing messages, you will be able to see the output:
+	Pi is roughly 3.1422263142226314
+	
+	# Example 2: Submit a Python job locally
+	spark-submit --master spark://spark-master:7077 examples/src/main/python/pi.py 10
+	
+	# After some processing messages, you will be able to see the output:
+	Pi is roughly 3.143703
+
+	# Example 3: Submit a Java/Scala job to cluster reading a file stored in Alluxio	
+	
+	# First use alluxio client to copy the executable to hdfs
+	alluxio fs copyFromLocal /spark/examples/jars/spark-examples_2.11-2.1.1.jar /hdfs/spark-examples.jar
+
+	# Now call spark-submit providing the following:
+	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI of worker (port 8081)
+	# 	The hdfs path to the executable jar
+	# 	The alluxio path to the input file
+	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://hdfs-namenode:9000/spark-examples.jar alluxio://alluxio-master:19998/README.md
+
+	# After you finish, exit the Spark Master container:
 	exit
 
 ## Stop this component using docker-compose

@@ -11,8 +11,11 @@ services:
       - ./spark/config/hadoop.env
     volumes:
       - ./spark/config:/spark/conf
-    environment:
-      - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+      - ./spark/base/hadoop_conf:/usr/local/hadoop/etc/hadoop
+      - ./spark/base/alluxio_conf:/alluxio/conf
+    # environment:
+    #   - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+    #   - ALLUXIO_UNDERFS_ADDRESS=/underStorage
     networks:
       - elastestdatamanager_elastest
 
@@ -22,13 +25,17 @@ services:
       - spark-master
     environment:
       - SPARK_MASTER=spark://spark-master:7077
-      - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+      # - ALLUXIO_MASTER_HOSTNAME=alluxio-master
+      # - ALLUXIO_UNDERFS_ADDRESS=/underStorage
     ports:
-      - "8081"
+      - 8081:8081
+      # - "8081"
     env_file:
       - ./spark/config/hadoop.env
     volumes:
       - ./spark/config:/spark/conf
+      - ./spark/base/hadoop_conf:/usr/local/hadoop/etc/hadoop
+      - ./spark/base/alluxio_conf:/alluxio/conf
     networks:
       - elastestdatamanager_elastest
 

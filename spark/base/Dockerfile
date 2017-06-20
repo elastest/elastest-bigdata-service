@@ -6,7 +6,7 @@ ENV ENABLE_INIT_DAEMON true
 ENV INIT_DAEMON_BASE_URI http://identifier/init-daemon
 ENV INIT_DAEMON_STEP spark_master_init
 
-ENV SPARK_VERSION=2.1.0
+ENV SPARK_VERSION=2.1.1
 ENV HADOOP_VERSION=2.7
 
 COPY wait-for-step.sh /
@@ -35,9 +35,32 @@ RUN apt-get-install -y python3 python3-setuptools python3-pip
 ENV PYTHONHASHSEED 1
 
 RUN cd / \
-	&& wget http://alluxio.org/downloads/files/1.5.0/alluxio-1.5.0-bin.tar.gz \
-	&& tar xvfz alluxio-1.5.0-bin.tar.gz \
-	&& rm alluxio-1.5.0-bin.tar.gz \
-	&& mv alluxio-1.5.0 alluxio
+	&& wget http://alluxio.org/downloads/files/1.5.0/alluxio-1.5.0-hadoop-${HADOOP_VERSION}-bin.tar.gz \
+	&& tar xvfz alluxio-1.5.0-hadoop-${HADOOP_VERSION}-bin.tar.gz \
+	&& rm alluxio-1.5.0-hadoop-${HADOOP_VERSION}-bin.tar.gz \
+	&& mv alluxio-1.5.0-hadoop-${HADOOP_VERSION} alluxio
 
 ENV PATH "$PATH:/alluxio/bin:/spark/bin"
+
+####################
+# HADOOP
+####################
+
+ENV HADOOP_VERSION      2.8.0
+ENV HADOOP_HOME         /usr/local/hadoop
+ENV HADOOP_OPTS         -Djava.library.path=/usr/local/hadoop/lib/native
+ENV PATH          $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y wget libzip2 libsnappy1 libssl-dev && \
+    wget http://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz && \
+    apt-get remove -y wget && \
+    rm -rf /var/lib/apt/lists/* && \
+    tar -zxf /hadoop-$HADOOP_VERSION.tar.gz && \
+    rm /hadoop-$HADOOP_VERSION.tar.gz && \
+    mv hadoop-$HADOOP_VERSION /usr/local/hadoop && \
+    mkdir -p /usr/local/hadoop/logs
+
+# Overwrite default HADOOP configuration files with our config files
+# COPY hadoop_conf  $HADOOP_HOME/etc/hadoop/
+# COPY alluxio_conf /alluxio/conf/
