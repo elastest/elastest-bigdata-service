@@ -9,7 +9,7 @@ node('docker'){
             git 'https://github.com/elastest/elastest-data-manager.git'
 
             stage "Run EDM docker-compose"
-                sh 'chmod +x bin/* && && bin/teardown-linux.sh && bin/startup-linux.sh'
+                sh 'chmod +x bin/* && bin/teardown-linux.sh && bin/startup-linux.sh'
                 echo ("EDM System is running..")
 
             git 'https://github.com/elastest/elastest-bigdata-service.git'
