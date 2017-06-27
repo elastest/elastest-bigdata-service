@@ -4,6 +4,10 @@ node('docker'){
         def mycontainer = docker.image('sgioldasis/ci-docker-in-docker:latest')
         mycontainer.pull() // make sure we have the latest available from Docker Hub
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
+
+            cd ~        
+            git 'https://github.com/elastest/elastest-data-manager.git'
+            cd ~
             git 'https://github.com/elastest/elastest-bigdata-service.git'
             
             // stage "Test"
@@ -20,7 +24,8 @@ node('docker'){
             stage "Run docker-compose"
             //    myimage.run()
             //    sh 'docker-compose up -d'
-                sh 'ls -l && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                sh 'cd ../elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                sh 'cd ../elastest-bigdata-service && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
                 echo ("System is running..")
                 
             stage "publish"
