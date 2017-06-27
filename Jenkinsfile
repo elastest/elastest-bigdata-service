@@ -5,9 +5,7 @@ node('docker'){
         mycontainer.pull() // make sure we have the latest available from Docker Hub
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
 
-            cd ~        
             git 'https://github.com/elastest/elastest-data-manager.git'
-            cd ~
             git 'https://github.com/elastest/elastest-bigdata-service.git'
             
             // stage "Test"
@@ -21,9 +19,11 @@ node('docker'){
                 //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
                 def spark_base_image = docker.build("elastest/ebs-spark-base:0.5.0","./spark")
 
-            stage "Run docker-compose"
-            //    myimage.run()
-            //    sh 'docker-compose up -d'
+            stage "Run EDM docker-compose"
+                sh 'cd ../elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                echo ("System is running..")
+
+            stage "Run EBS docker-compose"
                 sh 'cd ../elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
                 sh 'cd ../elastest-bigdata-service && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
                 echo ("System is running..")
