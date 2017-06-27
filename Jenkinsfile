@@ -5,8 +5,8 @@ node('docker'){
         mycontainer.pull() // make sure we have the latest available from Docker Hub
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
 
-            git 'https://github.com/elastest/elastest-data-manager.git'
-            git 'https://github.com/elastest/elastest-bigdata-service.git'
+            git clone 'https://github.com/elastest/elastest-data-manager.git'
+            git clone 'https://github.com/elastest/elastest-bigdata-service.git'
             
             // stage "Test"
             //     sh 'ls -la'
