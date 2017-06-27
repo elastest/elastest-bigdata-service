@@ -1,7 +1,7 @@
 node('docker'){
     stage "Container Prep"
         echo("the node is up")
-        def mycontainer = docker.image('gtunon/docker-in-docker:latest')
+        def mycontainer = docker.image('sgioldasis/ci-docker-in-docker:latest')
         mycontainer.pull() // make sure we have the latest available from Docker Hub
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
             git 'https://github.com/elastest/elastest-bigdata-service.git'
@@ -15,31 +15,25 @@ node('docker'){
             stage "Build Spark Base image - Package"
                 echo ("building..")
                 //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
-                def spark_base_image = docker.build("sgioldasis/elastest-spark-base:2.1.0","./spark/base")
+                def spark_base_image = docker.build("elastest/ebs-spark-base:0.5.0","./spark")
 
-            stage "Build Spark Master image - Package"
-                echo ("building..")
-                //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
-                def spark_master_image = docker.build("sgioldasis/elastest-spark-master:2.1.0","./spark/master")
-
-            stage "Build Spark Worker image - Package"
-                echo ("building..")
-                //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
-                def spark_worker_image = docker.build("sgioldasis/elastest-spark-worker:2.1.0","./spark/worker")
-
-            stage "Run image"
+            stage "Run docker-compose"
             //    myimage.run()
-                echo ("running..")
+            //    sh 'docker-compose up -d'
+                sh 'ls -l && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                echo ("System is running..")
                 
             stage "publish"
                 echo ("publishing..")
-            // //this is work arround as withDockerRegistry is not working properly 
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sgioldasis-dockerhub',
-                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                sh 'docker login -u "$USERNAME" -p "$PASSWORD"'
-                spark_base_image.push()
-                spark_master_image.push()
-                spark_worker_image.push()
-             }
+                withCredentials([[
+                    $class: 'UsernamePasswordMultiBinding', 
+                    credentialsId: 'elastestci-dockerhub',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD']]) {
+                        sh 'docker login -u "$USERNAME" -p "$PASSWORD"'
+                        //here your code 
+                        spark_base_image.push()
+                    }
+
         }
 }

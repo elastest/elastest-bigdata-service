@@ -1,62 +1,35 @@
-version: '2' 
+version: '2'
 
 services:
-
   spark-master:
-    image: sgioldasis/elastest-spark-master:2.1.0
+    build: spark
+    image: elastest/ebs-spark-base:0.5.0
+    container_name: spark-master
     ports:
-      - 8080:8080
-      - 7077:7077
-    env_file:
-      - ./spark/config/hadoop.env
+      - "8080:8080"
     volumes:
-      - ./spark/config:/spark/conf
-      - ./spark/base/hadoop_conf:/usr/local/hadoop/etc/hadoop
-      - ./spark/base/alluxio_conf:/alluxio/conf
-    # environment:
-    #   - ALLUXIO_MASTER_HOSTNAME=alluxio-master
-    #   - ALLUXIO_UNDERFS_ADDRESS=/underStorage
+      - ./spark/alluxio_conf:/opt/alluxio/conf
+      - ./spark/spark_conf:/opt/spark/conf
+      - ./spark/hadoop_conf:/usr/local/hadoop/etc/hadoop
+    command: ["/usr/bin/supervisord", "--configuration=/opt/conf/master.conf"]
+    hostname: spark-master
     networks:
       - elastestdatamanager_elastest
 
   spark-worker:
-    image: sgioldasis/elastest-spark-worker:2.1.0
+    image: anchormen/spark
     depends_on:
       - spark-master
-    environment:
-      - SPARK_MASTER=spark://spark-master:7077
-      # - ALLUXIO_MASTER_HOSTNAME=alluxio-master
-      # - ALLUXIO_UNDERFS_ADDRESS=/underStorage
     ports:
-      - 8081:8081
-      # - "8081"
-    env_file:
-      - ./spark/config/hadoop.env
+      - "8081"
     volumes:
-      - ./spark/config:/spark/conf
-      - ./spark/base/hadoop_conf:/usr/local/hadoop/etc/hadoop
-      - ./spark/base/alluxio_conf:/alluxio/conf
+      - ./spark/alluxio_conf:/opt/alluxio/conf
+      - ./spark/spark_conf:/opt/spark/conf
+      - ./spark/hadoop_conf:/usr/local/hadoop/etc/hadoop
+    command: ["/usr/bin/supervisord", "--configuration=/opt/conf/slave.conf"]
     networks:
       - elastestdatamanager_elastest
 
 networks:
   elastestdatamanager_elastest:
     external: true
-
-
-#Creating network "elastestdatamanager_elastest" with driver "bridge"
-
-
-  # spark-notebook:
-  #   image: bde2020/spark-notebook:2.1.0-hadoop2.8-hive
-  #   container_name: spark-notebook
-  #   env_file:
-  #     - ./hadoop.env
-  #   ports:
-  #     - 9001:9001
-  # hue:
-  #   image: bde2020/hdfs-filebrowser:3.11
-  #   ports:
-  #     - 8088:8088
-  #   environment:
-  #     - NAMENODE_HOST=namenode

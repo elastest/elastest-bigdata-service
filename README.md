@@ -73,7 +73,7 @@ You can try the following examples:
 	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
 
 	# Change directory to spark project folder
-	cd /spark
+	cd $SPARK_HOME
 
 	# Upload file to Alluxio Local Filesystem
 	alluxio fs copyFromLocal README.md /
@@ -136,7 +136,7 @@ You can try the following examples:
 	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
 
 	# Change directory to spark project folder
-	cd /spark
+	cd $SPARK_HOME
 
 	# Example 1: Submit a Java/Scala job locally
 	spark-submit --class org.apache.spark.examples.SparkPi --master spark://spark-master:7077 examples/jars/spark-examples_2.11-2.1.1.jar 100
@@ -153,7 +153,7 @@ You can try the following examples:
 	# Example 3: Submit a Java/Scala job to cluster reading a file stored in Alluxio	
 	
 	# First use alluxio client to copy the executable to hdfs
-	alluxio fs copyFromLocal /spark/examples/jars/spark-examples_2.11-2.1.1.jar /hdfs/spark-examples.jar
+	alluxio fs copyFromLocal $SPARK_HOME/examples/jars/spark-examples_2.11-2.1.1.jar /hdfs/spark-examples.jar
 
 	# Now call spark-submit providing the following:
 	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI of worker (port 8081)
