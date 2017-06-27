@@ -14,19 +14,21 @@ node('docker'){
             //     echo ("No tests yet, but these would be integration at least")
             //     sh 'which docker'
                 
+            stage "Verify"
+                sh 'pwd && ls -l && cd .. && pwd && ls -l'
+
             stage "Build Spark Base image - Package"
                 echo ("building..")
                 //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
                 def spark_base_image = docker.build("elastest/ebs-spark-base:0.5.0","./spark")
 
             stage "Run EDM docker-compose"
-                sh 'cd ../elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
-                echo ("System is running..")
+                sh 'cd ./elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                echo ("EDM System is running..")
 
             stage "Run EBS docker-compose"
-                sh 'cd ../elastest-data-manager && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
-                sh 'cd ../elastest-bigdata-service && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
-                echo ("System is running..")
+                sh 'cd .. && chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                echo ("EBS System is running..")
                 
             stage "publish"
                 echo ("publishing..")
