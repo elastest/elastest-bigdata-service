@@ -77,7 +77,7 @@ You can try the following examples:
 	# From main project folder
 	
 	# Get a shell inside Spark Master container
-	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
+	docker exec -it spark-master /bin/bash
 
 	# Change directory to spark project folder
 	cd $SPARK_HOME
@@ -140,7 +140,7 @@ You can try the following examples:
 	# From main project folder
 	
 	# Get a shell inside Spark Master container
-	docker exec -it elastestbigdataservice_spark-master_1 /bin/bash
+	docker exec -it spark-master /bin/bash
 
 	# Change directory to spark project folder
 	cd $SPARK_HOME
@@ -163,7 +163,7 @@ You can try the following examples:
 	alluxio fs copyFromLocal $SPARK_HOME/examples/jars/spark-examples_2.11-2.1.1.jar /hdfs/spark-examples.jar
 
 	# Now call spark-submit providing the following:
-	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI of worker (port 8081)
+	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI
 	# 	The hdfs path to the executable jar
 	# 	The alluxio path to the input file
 	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://hdfs-namenode:9000/spark-examples.jar alluxio://alluxio-master:19998/README.md
