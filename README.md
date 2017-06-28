@@ -24,7 +24,14 @@ The big data services under the responsibility of EBS are the following:
 
     # Change working directory to main project folder
     cd elastest-bigdata-service
-   
+
+### Prepare your environment
+
+    # From main project folder
+    
+    # Make scripts executable
+    chmod +x bin/* 
+       
 ## Start this component using docker-compose
 **Important**: This component depends on elastest-data-manager services. Please make sure elastest-data-manager component has been started before you start this component services
 
@@ -39,14 +46,14 @@ You have the possibility to scale the number of Spark worker nodes.
 
     # From main project folder
     
-    # Start component (in detached mode)
-    docker-compose up -d 
+    # Start component
+    bin/startup-linux.sh
     
     # View service status
-    docker-compose ps
+    docker-compose -p ebs ps
     
     # View logs
-    docker-compose logs
+    docker-compose -p ebs logs
 
 Please note that it will take some time (in the order of several seconds - depending on your system) for all the services to be fully available. 
 
@@ -60,7 +67,7 @@ Each component provide its own web UI. Open you browser at one of the URLs below
 ### Scaling the number of instances
 If you want to increase the number of Spark worker nodes in your cluster
 
-    docker-compose scale spark-worker=<number of instances>
+    docker-compose -p ebs scale spark-worker=<number of instances>
 
 ### Accessing the spark-shell
 Note: The Alluxio REST API is available at http://localhost:39999
@@ -168,12 +175,8 @@ You can try the following examples:
 
     # From main project folder
     
-    # Stop containers
-    docker-compose kill
-    
-    # Remove containers
-    docker-compose rm -f
-  
+    # Teardown component
+    bin/teardown-linux.sh
 
 What is ElasTest
 -----------------
