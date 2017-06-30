@@ -33,9 +33,9 @@ The big data services under the responsibility of EBS are the following:
     chmod +x bin/* 
        
 ## Start this component using docker-compose
-**Important**: This component depends on elastest-data-manager services. Please make sure elastest-data-manager component has been started before you start this component services
+**Important**: This component depends on elastest-data-manager services. Please make sure elastest-data-manager component has been started before you start this component services. For instructions on how to start the elastest-data-manager component please refer to https://github.com/elastest/elastest-data-manager.
 
-Note: your terminal need to be in the main project folder where the docker-compose.yml is located.
+**Note**: your terminal need to be in the main project folder where the docker-compose.yml is located.
 
 You can start this image using docker-compose. It will start the following:
 
