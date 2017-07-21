@@ -1,5 +1,6 @@
-[![License badge](https://img.shields.io/badge/license-Apache2-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![License badge](https://img.shields.io/badge/license-Apache2-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Documentation badge](https://img.shields.io/badge/docs-latest-brightgreen.svg)](http://elastest.io/docs/)
+[![Build Status](https://ci.elastest.io/jenkins/buildStatus/icon?job=elastest-bigdata-service/ebs-jenkinsfile/master)](https://ci.elastest.io/jenkins/job/elastest-bigdata-service/ebs-jenkinsfile/master)
 
 [![][ElasTest Logo]][ElasTest]
 
