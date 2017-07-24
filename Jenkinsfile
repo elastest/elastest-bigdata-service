@@ -1,7 +1,7 @@
 node('docker'){
     stage "Container Prep"
         echo("the node is up")
-        sh 'echo 262144 | sudo tee /proc/sys/vm/max_map_count'
+        //sh 'echo 262144 | sudo tee /proc/sys/vm/max_map_count'
         def mycontainer = docker.image('sgioldasis/ci-docker-in-docker:latest')
         mycontainer.pull() // make sure we have the latest available from Docker Hub
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
@@ -9,8 +9,8 @@ node('docker'){
             git 'https://github.com/elastest/elastest-data-manager.git'
 
             stage "Run EDM docker-compose"
-                sh 'chmod +x bin/* && bin/teardown-linux.sh && bin/startup-linux.sh'
-                echo ("EDM System is running..")
+                sh 'chmod +x bin/* && bin/teardown-ci.sh && bin/startup-ci.sh'
+                echo ("EDM System is running..")               
 
             git 'https://github.com/elastest/elastest-bigdata-service.git'
             
