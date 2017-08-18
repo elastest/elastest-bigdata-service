@@ -23,7 +23,7 @@ node('docker'){
             stage "Build Spark Base image - Package"
                 echo ("building..")
                 //need to be corrected to the organization because at the moment elastestci can't create new repositories in the organization
-                def spark_base_image = docker.build("elastest/ebs-spark-base:0.5.0","./spark")
+                def spark_base_image = docker.build("elastest/ebs-spark-base:0.1","./spark")
 
             stage "Run EBS docker-compose"
                 sh 'chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
