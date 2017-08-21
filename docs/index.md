@@ -80,7 +80,7 @@ If you want to increase the number of Spark worker nodes in your cluster
 
 ### Architecture
 
-![](/media/DATA/Dropbox/projects/elastest/prod/elastest-bigdata-service/docs/images/ebs_architecture_diagram.png) 
+![](images/ebs_architecture_diagram.png) 
 
 **Spark Master/Worker**: Spark uses a master/worker architecture. There is a driver that talks to a single coordinator called master that manages workers in which executors run.
 	
