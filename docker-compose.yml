@@ -2,7 +2,7 @@ version: '2'
 
 services:
   spark-master:
-    image: elastest/ebs-spark-base:0.1
+    image: elastest/ebs:0.1
     container_name: spark-master
     ports:
       - "8080:8080"
@@ -16,7 +16,7 @@ services:
       - elastest
 
   spark-worker:
-    image: elastest/ebs-spark-base:0.1
+    image: elastest/ebs:0.1
     depends_on:
       - spark-master
     ports:
