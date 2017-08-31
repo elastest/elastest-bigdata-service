@@ -1,6 +1,5 @@
 {
   "register": {
-    // Request body of "register" ESM operation...
     "description": "elastest big data service",
     "id": "a1920b13-7d11-4ebc-a732-f86a108ea49c",
     "name": "elastest-bigdata-service",
@@ -14,7 +13,7 @@
         "id": "f6ed4b3e-e132-47b6-af71-26dbb76e59cb",
         "name": "ebs_plan"
       }
-    ],
+    ]
   },
   "manifest": {
     "id": "1cc39d82-c085-4096-8018-750e7eb31cc8",
