@@ -26,7 +26,7 @@ node('docker'){
 
             // Run EBS docker-compose
             stage "Run EBS docker-compose"
-                sh 'chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
+                sh 'chmod +x bin/* && bin/teardown-linux.sh && bin/startup-linux.sh'
                 echo ("EBS System is running..")
 
             stage "Unit tests"
