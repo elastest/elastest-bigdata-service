@@ -1,6 +1,0 @@
-coverage:
-    range: "70..100"
-    ignore:
-        - src/runebs.py*
-        - src/settings.py*
-comment: false

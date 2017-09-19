@@ -1,0 +1,5 @@
+[run]
+omit =
+    # omit these files
+    src/runebs.py
+    src/settings.py
