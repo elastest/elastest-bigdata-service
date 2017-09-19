@@ -5,7 +5,7 @@ services:
     image: elastest/ebs-spark:latest
     container_name: spark-master
     ports:
-      - "8080:8080"
+      - "8082:8080"
       - "7077:7077"
     volumes:
       - ./spark/alluxio_conf:/opt/alluxio/conf
