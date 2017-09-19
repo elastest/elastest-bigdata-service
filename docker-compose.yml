@@ -29,6 +29,20 @@ services:
     networks:
       - elastest
 
+  rest-api:
+    build: ./rest-api  # path is relative to docker-compose.yml location
+    # image: elastest/edm:0.1
+    environment:
+      - EBS_PORT=5000
+    volumes:
+      - ./rest-api:/app # mount point
+    links:
+      - spark-master
+    ports:
+      - 5000:5000  # host:container
+    networks:
+        - elastest
+
 networks:
   elastest:
     external: true

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Running command inside container using docker-compose"
+
+docker-compose --project-name ebs run $@
+
