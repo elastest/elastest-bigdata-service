@@ -1,4 +1,4 @@
-from src import app
+from src import runebs as app
 from flask import url_for
 from flask import Flask, Blueprint
 import flask_restplus as restplus
@@ -29,6 +29,7 @@ class EdmRestApiTest(unittest.TestCase):
         tapp.config['TESTING'] = True
         tapp.config['WTF_CSRF_ENABLED'] = False
         tapp.config['DEBUG'] = False
+
         self.api_prefix = tapp.config['API_PREFIX']
 
         self.app = tapp.test_client()
@@ -42,6 +43,11 @@ class EdmRestApiTest(unittest.TestCase):
         ##########################
         #### Happy path tests ####
         ##########################
+
+    # def test_00_get_environment(self):
+    #     url = self.app_config['SPARK_MASTER_URL']
+    #     url = os.getenv('EBS_SPARK_URL')
+    #     self.assertEqual(url, 200)
 
     def test_01_get_environment(self):
         url = self.api_prefix+'/environment'

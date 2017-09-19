@@ -13,6 +13,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.wsgi import WSGIContainer
 
+
 logging.config.fileConfig('logging.conf')
 log = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ def configure_app(flask_app):
 #    flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
 
     ebs_port = os.environ.get('EBS_PORT', settings.FLASK_SERVER_PORT)
-    ebs_spark_master_url = os.environ.get('EBS_SPARK_MASTER_URL', settings.FLASK_SERVER_PORT)
+    ebs_spark_url = os.environ.get('EBS_SPARK_MASTER_URL', settings.SPARK_MASTER_URL)
 
     flask_app.config['SERVER_HOST'] = settings.FLASK_SERVER_HOST
     flask_app.config['SERVER_PORT'] = ebs_port
@@ -31,7 +32,7 @@ def configure_app(flask_app):
     flask_app.config['RESTPLUS_MASK_SWAGGER'] = settings.RESTPLUS_MASK_SWAGGER
     flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
     flask_app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
-    flask_app.config['SPARK_MASTER_URL'] = ebs_spark_master_url
+    flask_app.config['SPARK_MASTER_URL'] = ebs_spark_url
     flask_app.config['API_PREFIX'] = settings.API_PREFIX
 
 
@@ -52,17 +53,17 @@ def main(): # pragma: no cover
     # log.info('>>>>> Starting server at http://%s:%d/api/ <<<<<', settings.FLASK_SERVER_HOST, settings.FLASK_SERVER_PORT)
     # app.run(host=settings.FLASK_SERVER_HOST, port=settings.FLASK_SERVER_PORT, debug=settings.FLASK_DEBUG)
 
+    app = Flask(__name__)
 
     # Tornado implementation
-    ebs_app = Flask(__name__)
-    initialize_app(ebs_app)
+    initialize_app(app)
     # log.info('>>>>> Starting server at http://%s:%d/api/ <<<<<', settings.FLASK_SERVER_HOST, settings.FLASK_SERVER_PORT)
 
-    # ebs_app = create_api()
+    # app = create_api()
     # check_app = add_check_api()
 
     ebs_port = os.environ.get('EBS_PORT', 5000)
-    ebs_server = HTTPServer(WSGIContainer(ebs_app))
+    ebs_server = HTTPServer(WSGIContainer(app))
     ebs_server.listen(address='0.0.0.0', port=ebs_port)
     # log.info('EBS available at http://{IP}:{PORT}'.format(IP='0.0.0.0', PORT=ebs_port))
 
