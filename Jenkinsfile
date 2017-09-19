@@ -9,9 +9,9 @@ node('docker'){
             // Get EDM source code
             git 'https://github.com/elastest/elastest-data-manager.git'
 
-            stage "Run EDM docker-compose"
-                sh 'chmod +x bin/* && bin/teardown-ci.sh && bin/startup-ci.sh'
-                echo ("EDM System is running..")               
+            // stage "Run EDM docker-compose"
+            //     sh 'chmod +x bin/* && bin/teardown-ci.sh && bin/startup-ci.sh'
+            //     echo ("EDM System is running..")               
 
             // Get EBS source code
             git 'https://github.com/elastest/elastest-bigdata-service.git'
