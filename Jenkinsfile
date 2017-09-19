@@ -42,7 +42,8 @@ node('docker'){
                 sh 'export GIT_COMMIT=$git_commit'
               
                 sh 'export GIT_BRANCH=master'
-                def codecovArgs = "-v -t $COB_EBS_TOKEN"
+                // def codecovArgs = "-v -t $COB_EBS_TOKEN"
+                def codecovArgs = "-v -t 64f66b26-1b9c-48ab-b412-9021cdbc36cd"
                         
                 echo "$codecovArgs"
                 
