@@ -24,6 +24,7 @@ node('docker'){
                 echo ("building..")
                 def spark_base_image = docker.build("elastest/ebs-spark:latest","./spark")
 
+            // Run EBS docker-compose
             stage "Run EBS docker-compose"
                 sh 'chmod +x bin/startup-linux.sh && bin/startup-linux.sh'
                 echo ("EBS System is running..")
