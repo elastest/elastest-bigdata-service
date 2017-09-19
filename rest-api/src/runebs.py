@@ -1,3 +1,5 @@
+# codecov ignore start
+
 from flask import Flask, Blueprint
 from flask_restplus import Resource, Api
 from flask_cors import CORS

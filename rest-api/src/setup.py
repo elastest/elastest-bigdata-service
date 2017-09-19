@@ -1,3 +1,5 @@
+# codecov ignore start
+
 import os
 import inspect
 from setuptools import setup, find_packages
