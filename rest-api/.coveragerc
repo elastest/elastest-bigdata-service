@@ -2,4 +2,4 @@
 omit =
     # omit these files
     src/runebs.py
-    src/settings.py
+    src/setup.py
