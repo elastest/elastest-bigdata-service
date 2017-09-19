@@ -42,16 +42,14 @@ node('docker'){
                 sh 'export GIT_COMMIT=$git_commit'
               
                 sh 'export GIT_BRANCH=master'
-                // def codecovArgs = "-v -t $COB_EBS_TOKEN"
-                def codecovArgs = "-v -t 64f66b26-1b9c-48ab-b412-9021cdbc36cd"
+                def codecovArgs = "-v -t $COB_EBS_TOKEN"
+                // def codecovArgs = "-v -t 64f66b26-1b9c-48ab-b412-9021cdbc36cd"
                         
                 echo "$codecovArgs"
                 
                 def exitCode = sh(
                     returnStatus: true,
                     script: "curl -s https://codecov.io/bash | bash -s - $codecovArgs")
-                    //script: "curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov | bash -s - $codecovArgs")
-                    //script: " pip install --user codecov && codecov -v -t $COB_EBS_TOKEN")
                     if (exitCode != 0) {
                         echo( exitCode +': Failed to upload code coverage to codecov')
                     }
