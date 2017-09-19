@@ -35,6 +35,7 @@ services:
     image: elastest/ebs:latest
     environment:
       - EBS_PORT=5000
+      - SPARK_MASTER_URL='http://spark-master:8082/'
     volumes:
       - ./rest-api:/app # mount point
     links:
