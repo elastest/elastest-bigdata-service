@@ -1,4 +1,4 @@
-# codecov ignore start
+# codecov ignore
 
 from flask import Flask, Blueprint
 from flask_restplus import Resource, Api

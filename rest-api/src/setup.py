@@ -1,4 +1,4 @@
-# codecov ignore start
+# codecov ignore
 
 import os
 import inspect
