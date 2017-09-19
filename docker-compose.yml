@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   spark-master:
-    image: elastest/ebs:0.1
+    image: elastest/ebs-spark:latest
     container_name: spark-master
     ports:
       - "8080:8080"
@@ -17,7 +17,7 @@ services:
       - elastest
 
   spark-worker:
-    image: elastest/ebs:0.1
+    image: elastest/ebs-spark:latest
     depends_on:
       - spark-master
     ports:
@@ -31,8 +31,8 @@ services:
       - elastest
 
   rest-api:
-    build: ./rest-api  # path is relative to docker-compose.yml location
-    # image: elastest/edm:0.1
+    # build: ./rest-api  # path is relative to docker-compose.yml location
+    image: elastest/ebs:latest
     environment:
       - EBS_PORT=5000
     volumes:
