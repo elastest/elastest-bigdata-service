@@ -1,0 +1,59 @@
+{
+    "info": {
+        "version": "1.0", 
+        "description": "The REST API for Elastest Bigdata Service component", 
+        "title": "Elastest Bigdata Service API"
+    }, 
+    "paths": {
+        "/environment": {
+            "get": {
+                "operationId": "get_environment", 
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }, 
+                "tags": [
+                    "default"
+                ], 
+                "summary": "Returns details of the component's environment"
+            }
+        }, 
+        "/healthcheck": {
+            "get": {
+                "operationId": "get_health_check", 
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }, 
+                "tags": [
+                    "default"
+                ], 
+                "summary": "Returns the overall health status of the component"
+            }
+        }
+    }, 
+    "responses": {
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }, 
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        }
+    }, 
+    "tags": [
+        {
+            "name": "default", 
+            "description": "Default namespace"
+        }
+    ], 
+    "basePath": "/", 
+    "produces": [
+        "application/json"
+    ], 
+    "swagger": "2.0", 
+    "consumes": [
+        "application/json"
+    ]
+}
