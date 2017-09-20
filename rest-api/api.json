@@ -19,7 +19,7 @@
                 "summary": "Returns details of the component's environment"
             }
         }, 
-        "/healthcheck": {
+        "/health": {
             "get": {
                 "operationId": "get_health_check", 
                 "responses": {

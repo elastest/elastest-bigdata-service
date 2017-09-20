@@ -10,8 +10,8 @@ from bs4 import BeautifulSoup
 import requests
 
 API_PREFIX = settings.API_PREFIX
-API_HEALTHCHECK = '/healthcheck'
-API_ENVIRONMENT = '/environment'
+API_HEALTHCHECK = settings.API_HEALTHCHECK
+API_ENVIRONMENT = settings.API_ENVIRONMENT
 
 log = logging.getLogger(__name__)
 

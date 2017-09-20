@@ -8,6 +8,8 @@ import unittest
 import json
 import requests
 
+import settings
+
 TXT_SUCCESS = 'success'
 TXT_FAILURE = 'failure'
 URL_ERROR   = 'http://spark-down/'
@@ -50,7 +52,7 @@ class EdmRestApiTest(unittest.TestCase):
     #     self.assertEqual(url, 200)
 
     def test_01_get_environment(self):
-        url = self.api_prefix+'/environment'
+        url = self.api_prefix+settings.API_ENVIRONMENT
         response = self.app.get(url, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
@@ -67,7 +69,7 @@ class EdmRestApiTest(unittest.TestCase):
             expected_response = 200
             expected_response_status = TXT_FAILURE
 
-        url = self.api_prefix+'/healthcheck'
+        url = self.api_prefix+settings.API_HEALTHCHECK
         response = self.app.get(url, follow_redirects=True)
         rdata = json.loads(response.data)
         self.assertEqual(response.status_code, expected_response)
@@ -79,13 +81,13 @@ class EdmRestApiTest(unittest.TestCase):
 
     def test_51_get_environment_exception(self):
         self.app_config['SPARK_MASTER_URL'] = URL_ERROR
-        url = self.api_prefix+'/environment'
+        url = self.api_prefix+settings.API_ENVIRONMENT
         response = self.app.get(url, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     def test_52_get_healthcheck_exception(self):
         self.app_config['SPARK_MASTER_URL'] = URL_ERROR
-        url = self.api_prefix+'/healthcheck'
+        url = self.api_prefix+settings.API_HEALTHCHECK
         response = self.app.get(url, follow_redirects=True)
         rdata = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
