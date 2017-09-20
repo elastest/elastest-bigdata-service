@@ -64,7 +64,7 @@ Each component provide its own web UI. Open you browser at one of the URLs below
 
 | Component               | Port                                               |
 | ----------------------- | -------------------------------------------------- |
-| Spark Master           | [http://localhost:8082](http://localhost:8082) |
+| Spark Master           | [http://localhost:8080](http://localhost:8080) |
 
 ### Scaling the number of instances
 If you want to increase the number of Spark worker nodes in your cluster
