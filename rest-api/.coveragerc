@@ -3,3 +3,4 @@ omit =
     # omit these files
     src/runebs.py
     src/setup.py
+    src/exportapi.py
