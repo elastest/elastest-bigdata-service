@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:latest
+FROM gliderlabs/alpine
 
 LABEL maintainer="s.gioldasis@gmail.com"
 LABEL version="0.1.0"

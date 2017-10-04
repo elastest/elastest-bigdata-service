@@ -2,8 +2,8 @@ node('docker'){
     stage "Container Prep"
         echo("the node is up")
         //sh 'echo 262144 | sudo tee /proc/sys/vm/max_map_count'
-        def mycontainer = docker.image('sgioldasis/ci-docker-in-docker:latest')
-        mycontainer.pull() // make sure we have the latest available from Docker Hub
+        def mycontainer = docker.image('sgioldasis/ci-docker-in-docker')
+        mycontainer.pull()
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
 
             // Get EDM source code
@@ -18,11 +18,11 @@ node('docker'){
             
             stage "Build REST API image - Package"
                 echo ("building..")
-                def rest_api_image = docker.build("elastest/ebs:latest","./rest-api")
+                def rest_api_image = docker.build("elastest/ebs:0.5.0-alpha1","./rest-api")
 
             stage "Build Spark Base image - Package"
                 echo ("building..")
-                def spark_base_image = docker.build("elastest/ebs-spark:latest","./spark")
+                def spark_base_image = docker.build("elastest/ebs-spark:0.5.0-alpha1","./spark")
 
             // Run EBS docker-compose
             stage "Run EBS docker-compose"
