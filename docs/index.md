@@ -125,7 +125,7 @@ You can try the following examples:
 	# The following commands must be typed inside spark-shell at the "scala>" command prompt
 	
 	# Read text file from Alluxio Local Filesystem into Spark
-	val s = sc.textFile("alluxio://alluxio-master:19998/README.md")
+	val s = sc.textFile("alluxio://edm-alluxio-master:19998/README.md")
 	
 	# Count the lines
 	s.count()
@@ -134,10 +134,10 @@ You can try the following examples:
 	val double = s.map(line => line + '\n' + line)
 	
 	# Save a new file from Spark to Alluxio Local Filesystem
-	double.saveAsTextFile("alluxio://alluxio-master:19998/README.double")
+	double.saveAsTextFile("alluxio://edm-alluxio-master:19998/README.double")
 	
 	# Read back the file we just saved (from Alluxio Local Filesystem into Spark)
-	val d = sc.textFile("alluxio://alluxio-master:19998/README.double")
+	val d = sc.textFile("alluxio://edm-alluxio-master:19998/README.double")
 	
 	# Count the lines - Result should be double than that of s.count()
 	d.count()
@@ -152,10 +152,10 @@ You can try the following examples:
 	# For example:
 	
 	# Read text file from Alluxio HDFS into Spark
-	val s = sc.textFile("alluxio://alluxio-master:19998/hdfs/README.md")
+	val s = sc.textFile("alluxio://edm-alluxio-master:19998/hdfs/README.md")
 	
 	# Save a new file from Spark to Alluxio HDFS
-	double.saveAsTextFile("alluxio://alluxio-master:19998/hdfs/README.double")
+	double.saveAsTextFile("alluxio://edm-alluxio-master:19998/hdfs/README.double")
 	
 	# Finally, exit the Spark Master container
 	exit
@@ -193,7 +193,7 @@ You can try the following examples:
 	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI
 	# 	The hdfs path to the executable jar
 	# 	The alluxio path to the input file
-	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://edm-hdfs-namenode:9000/spark-examples.jar alluxio://alluxio-master:19998/README.md
+	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://edm-hdfs-namenode:9000/spark-examples.jar alluxio://edm-alluxio-master:19998/README.md
 
 	# After you finish, exit the Spark Master container:
 	exit
