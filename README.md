@@ -168,7 +168,7 @@ You can try the following examples:
 	# 	deploy-mode cluster - The job will run in the cluster. Output can be seen from cluster GUI
 	# 	The hdfs path to the executable jar
 	# 	The alluxio path to the input file
-	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://hdfs-namenode:9000/spark-examples.jar alluxio://alluxio-master:19998/README.md
+	spark-submit  --deploy-mode cluster --master spark://spark-master:7077 --class org.apache.spark.examples.HdfsTest hdfs://edm-hdfs-namenode:9000/spark-examples.jar alluxio://alluxio-master:19998/README.md
 
 	# After you finish, exit the Spark Master container:
 	exit
