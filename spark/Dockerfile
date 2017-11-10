@@ -63,7 +63,10 @@ ENV PATH          $PATH:$SPARK_HOME/bin
 COPY master.conf /opt/conf/master.conf
 COPY slave.conf /opt/conf/slave.conf
 
-
+#####adding conf files [to be used by alluxio, hadoop, spark]
+ADD spark/alluxio_conf /opt/alluxio/conf/
+ADD spark/hadoop_conf /usr/local/hadoop/etc/hadoop/
+ADD spark/spark_conf /opt/spark/conf/
 
 #######exposing port 8080 for spark master UI
 EXPOSE 8080
