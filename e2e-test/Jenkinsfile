@@ -17,7 +17,8 @@ node('docker') {
             }
 
             sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start"
-            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait --running=49000"
+            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait"
+            sh "sleep 300"
             sh "docker logs elastest-platform"
 
             containerId= sh (
