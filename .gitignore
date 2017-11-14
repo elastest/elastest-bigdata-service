@@ -1,2 +1,8 @@
 # Temp files
 elastestgen*
+settings.json
+.classpath
+.project
+e2e-test/.settings/*
+e2e-test/target/*
+
