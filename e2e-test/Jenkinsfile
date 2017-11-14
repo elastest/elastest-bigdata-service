@@ -9,16 +9,16 @@ node('docker') {
          git 'https://github.com/elastest/elastest-bigdata-service.git'
 
          stage('ElasTest starting'){
-            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform stop" 
+            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform stop"
             try {
                sh "docker rm -f elastest-platform"
             } catch(e) {
                echo "Error: $e"
             }
 
-            sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start" 
+            sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start"
             // sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait --running=9040"
-            sh "sleep 300"
+            sh "sleep 900"
             sh "docker logs elastest-platform"
 
             containerId= sh (
