@@ -5,4 +5,4 @@ settings.json
 .project
 e2e-test/.settings/*
 e2e-test/target/*
-
+*.old
