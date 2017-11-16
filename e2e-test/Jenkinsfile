@@ -16,9 +16,13 @@ node('docker') {
                echo "Error: $e"
             }
 
-            sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start"
-            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait"
-            sh "sleep 300"
+            // sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start"
+            // sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait"
+            // sh "sleep 300"
+            // sh "docker logs elastest-platform"
+
+            sh "docker run --name elastest-platform -d --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform start" 
+            sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock elastest/platform wait --running=240"
             sh "docker logs elastest-platform"
 
             containerId= sh (
@@ -39,7 +43,8 @@ node('docker') {
             try {
                sh "cd e2e-test; mvn -B clean test -DetEmpApi=http://${etEmpApi}:8091/"
             } catch(e) {
-                sh 'docker ps | awk "{print $NF}" | grep ebs | xargs docker logs'
+                // sh 'docker ps | awk "{print $NF}" | grep ebs | xargs docker logs'
+                sh 'docker ps | awk "{print $NF}" | grep ebs'
             }
             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
          }
