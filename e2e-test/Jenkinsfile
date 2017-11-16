@@ -28,7 +28,7 @@ elastest_lib.pipeline({
             echo ("E2E tests")
             def etEmpApi = elastest.getEtmUrl()
             // sh "cd e2e-test; mvn clean test -DetEmpApi=${etEmpApi}"
-            sh "cd e2e-test; mvn -B clean test -DetEmpApi=http://${etEmpApi}:8091/"
+            sh "cd e2e-test; mvn -B clean test -DetEmpApi=${etEmpApi}"
             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
           }
 })
