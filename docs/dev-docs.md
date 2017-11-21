@@ -131,6 +131,7 @@ The EBS docker images are the following:
 
 The ElasTest CI is served by the ElasTest Jenkins platform (https://ci.elastest.io/jenkins/).
 Regarding the EBS (elastest-bigdata-service) there are two pipelines:
+
 	# The first pipeline is named "ebs" and is responsible for the building and publishing of the ebs docker imnages. 
 	  The ebs pipeline is consisted from the following stages:
 		- Container Prep
