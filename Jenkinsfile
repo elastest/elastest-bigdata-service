@@ -23,7 +23,7 @@ node('docker'){
 
             stage "Build Spark Base image - Package"
                 echo ("building..")
-                sh 'docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git log -1 --format=%cd --date=format:%Y-%m-%dT%H:%M:%S) -f spark/Dockerfile . -t elastest/ebs-spark:latest'
+                sh 'cd spark; docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git log -1 --format=%cd --date=format:%Y-%m-%dT%H:%M:%S) . -t elastest/ebs-spark:latest'
                 def spark_base_image = docker.image("elastest/ebs-spark:latest")
 
             // Run EBS docker-compose
