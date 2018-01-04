@@ -3,6 +3,14 @@ FROM ubuntu:14.04
 
 MAINTAINER s.gioldasis@gmail.com
 
+# Set labels
+ARG GIT_COMMIT=unspecified
+LABEL git_commit=$GIT_COMMIT
+ARG COMMIT_DATE=unspecified
+LABEL commit_date=$COMMIT_DATE
+ARG VERSION=unspecified
+LABEL version=$VERSION
+
 
 ####installing [software-properties-common] so that we can use [apt-add-repository] to install Java8
 RUN apt-get update -y && apt-get install software-properties-common -y \

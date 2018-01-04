@@ -18,11 +18,13 @@ node('docker'){
             
             stage "Build REST API image - Package"
                 echo ("building..")
-                def rest_api_image = docker.build("elastest/ebs:latest","./rest-api")
+                sh 'cd rest-api; docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git log -1 --format=%cd --date=format:%Y-%m-%dT%H:%M:%S) -f rest-api/Dockerfile . -t elastest/ebs:latest'
+                def rest_api_image = docker.image("elastest/ebs:latest")
 
             stage "Build Spark Base image - Package"
                 echo ("building..")
-                def spark_base_image = docker.build("elastest/ebs-spark:latest","./spark")
+                sh 'docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) --build-arg COMMIT_DATE=$(git log -1 --format=%cd --date=format:%Y-%m-%dT%H:%M:%S) -f spark/Dockerfile . -t elastest/ebs-spark:latest'
+                def spark_base_image = docker.image("elastest/ebs-spark:latest")
 
             // Run EBS docker-compose
             stage "Run EBS docker-compose"
