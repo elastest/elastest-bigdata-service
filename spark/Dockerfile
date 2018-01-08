@@ -68,6 +68,12 @@ ADD alluxio_conf/* /opt/alluxio/conf/
 ADD hadoop_conf/* /usr/local/hadoop/etc/hadoop/
 ADD spark_conf/* /opt/spark/conf/
 
+#####add maven, git for allowing application building
+RUN apt-get -y install git maven
+
+#####add an xterm in order to be able to easily resize the terminal
+RUN apt-get -y install xterm
+
 #######exposing port 8080 for spark master UI
 EXPOSE 8080
 
