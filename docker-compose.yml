@@ -20,11 +20,6 @@ services:
     image: elastest/ebs-spark:latest
     depends_on:
       - spark-master
-    # Normally we should be able to use this environment variable in order to substitute all 
-    # configuration files with the correct spark-master.
-    # Leaving this here for reference, for the time being.
-    environment:
-      - SPARK_MASTER_HOSTNAME=spark-master
     ports:
       - "8081"
     # volumes:
