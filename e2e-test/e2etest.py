@@ -6,13 +6,13 @@ import sys
 # create a dummy project
 
 
-url = sys.argv[0]
+url = sys.argv[1]
 res = requests.get(url)
 data = json.dumps({"id": 666, "name": "EBSE2E"})
 headers = {'content-type': 'application/json'}
 res = requests.post(url+'/api/project', data=data, headers=headers)
-print res.text
-print json.loads(res.text)
+print(res.text)
+print(json.loads(res.text))
 
 
 # create a tjob in the project
@@ -79,13 +79,13 @@ tjob=json.dumps({ "id": 0,
 res = requests.post(url+'/api/tjob', headers=headers, data=tjob)
 resjson = res.json()
 tjobid = resjson['id']
-print resjson['id']
+print(resjson['id'])
 
 
 # run the tjob
 data = {"tJobParams": []}
 res = requests.post(url + '/api/tjob/' + str(tjobid) + '/exec', headers=headers, json=data)
-print res.text
+print(res.text)
 
 
 # probe for results
@@ -94,7 +94,7 @@ print res.text
 exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
 
 while ("FAIL" != str(json.loads(exec_resp.text)["result"]).strip()) and ("SUCCESS" != str(json.loads(exec_resp.text)["result"]).strip()):
-    print("TJob execution status is: "+str(json.loads(exec_resp.text)["result"]))
+    print(("TJob execution status is: "+str(json.loads(exec_resp.text)["result"])))
     exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
     time.sleep(5)
 
