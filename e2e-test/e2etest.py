@@ -109,4 +109,5 @@ if "SUCCESS" in str(json.loads(exec_resp.text)["result"]):
 elif "FAIL" in str(json.loads(exec_resp.text)["result"]):
     # print exec_resp.text
     print("TJob execution failed")
+    print("exit status: " + exec_resp.text)
     exit(1)
