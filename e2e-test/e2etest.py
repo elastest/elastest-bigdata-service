@@ -117,6 +117,6 @@ elif "FAIL" in str(json.loads(exec_resp.text)["result"]):
     for dicthit in dictarray:
         #print dicthit['_source']
         if dicthit['_source']['type'] == 'et_logs':
-            print dicthit['_source']['message']
+            print(dicthit['_source']['message'])
 
     exit(1)
