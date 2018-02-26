@@ -110,4 +110,13 @@ elif "FAIL" in str(json.loads(exec_resp.text)["result"]):
     # print exec_resp.text
     print("TJob execution failed")
     print("exit status: " + exec_resp.text)
+    # fetch the logs
+    res = requests.post(url + '/elasticsearch/' + str(tjobid) + '/_search?size=8000', headers=headers) 
+    reson = json.loads(res.text)
+    dictarray = reson['hits']['hits']
+    for dicthit in dictarray:
+        #print dicthit['_source']
+        if dicthit['_source']['type'] == 'et_logs':
+            print dicthit['_source']['message']
+
     exit(1)
