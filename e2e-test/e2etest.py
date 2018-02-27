@@ -93,8 +93,8 @@ print(res.text)
 # exec_resp = s.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
 exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
 print(exec_resp.text)
-#execId = json.loads(exec_resp.text)["monitoringIndex"]
-execId = json.loads(exec_resp.text)["logIndex"]
+execId = json.loads(exec_resp.text)["monitoringIndex"]
+#execId = json.loads(exec_resp.text)["logIndex"]
 
 
 while ("FAIL" != str(json.loads(exec_resp.text)["result"]).strip()) and ("SUCCESS" != str(json.loads(exec_resp.text)["result"]).strip()):
