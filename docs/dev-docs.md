@@ -11,41 +11,31 @@
 
 **Alluxio Client**: The native client for the Alluxio filesystem interface.  The client is pre-configured with the details of the Alluxio Cluster. It allows the communication of the Spark Master/Workers with the Alluxio filesystem interface which abstracts other filesystems (local/HDFS etc).
 
-## Development procedure
+## Development documentation
+This repository contains Dockerfiles to create the two used images, as well as the configuration files and source code for the whole cluster. Each Dockerfile along with any source code and conf files required to build it is contained in a separate folder: 
 
-### Using EBS from a TJob
+**rest-api**: Contains all the required source/configuration to build the EBS Healthcheck API image (Image name: elastest/ebs). 
 
-In order to use EBS from a TJob, you need to use the ElasTest\ebs-spark image. Anything executed inside that image, can directly access the whole ElasTest Big Data stack, both from EBS and EDM provided components. A demo Spark project is inside [ElasTest demo projects](https://github.com/elastest/demo-projects/tree/master/ebs-test) and the TJob code to use it is given below: 
+**spark**: Contains all the required configuration templates to build the EBS spark node image (Image name: elastest/ebs-spark). The actual cluster topology is controlled by TORM, but a demonstration of how to create a cluster can be found in `docker-compose.yml`.
+
+**e2e-test**: As per ElasTest specification, this is a python script that will use TORM API to generate a project containing a TJob that will pull a java spark project, build it, deploy it on the cluster and verify the results. 
+
+### Development procedure
+
+First build local tags of your images:
 
 ```bash
-git clone https://github.com/elastest/demo-projects.git
-
-
-cd demo-projects/ebs-test
-
-mvn package
-rm -f big.txt
-wget https://norvig.com/big.txt
-
-
-#clean the pre-existing file
-hadoop fs  -rmr /out.txt
-hadoop fs -rmr /big.txt
-hadoop fs -copyFromLocal big.txt /big.txt
-
-
-spark-submit --class org.sparkexample.WordCountTask --master spark://spark:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
-
-hadoop fs -getmerge /out.txt ./out.txt
-head -10 out.txt
+# Spark image:
+cd spark
+docker build -t elastest/ebs-spark:<your tag> .
+# Api Image: 
+cd ../rest-api
+docker build -t elastest/ebs:<your tag> .
 ```
 
-## Docker Images
+Then alter `docker-compose.yml` in the base project directory to reflect your local tag, and run `docker-compose up` to start a local version of the cluster (or follow the relevant documentation to start a whole ElasTest platform).
+Once you verify your changes, revert docker-compose.yml and push your changes. CI (details below) will test the whole system, and generate/push the images to Docker Registry.
 
-The EBS docker images are the following:
-
-	# ElasTest\ebs-spark: It contains the Apache spark open source cluster-computing framework and a git/maven toolset to build projects.
-	# ElasTest\ebs: It contains the REST API which is responsible for the EBS health check.
 
 ## Continuous Integration
 
@@ -64,12 +54,5 @@ Regarding the EBS (elastest-bigdata-service) there are two pipelines:
 		- Cobertura
 		- publish
 	
-	# The second pipeline is named "ebs-e2e-test" and is responsible to run the end to end tests which check the component integration with the ElasTest platform.
-	  The ebs-e2e-test is consisted from the following stages:
-		- launch elastest
-		- Container Prep
-		- docker conf
-		- E2E tests
-		- release elastest
+	# The second pipeline is named "ebs-e2e-test" and is responsible to run the end to end tests which check the component integration with the ElasTest platform. The ebs-e2e-test uses the ElasTest TORM API to create a project and TJob. The specific TJob will perform a full git pull/build/deploy pipeline of a demo project, as described in [user docs](https://github.com/elastest/elastest-bigdata-service/blob/master/docs/user-docs.md#using-ebs-from-a-tjob).
 
-	
