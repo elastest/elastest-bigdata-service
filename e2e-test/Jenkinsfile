@@ -27,9 +27,9 @@ elastest_lib.pipeline({
                 def elastestPass = elastest.getElasTestPassword()
                 // def elastestURL = elastest.getEtmUrl() //TO BE REMOVED
                 def elastestURL = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
-            stage ("E2E tests")
+            stage ("E2E API tests")
                 sh "pip install requests"
         	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
-         
+                sh "python seleniume2e.py ${elastestURL}"
         }
   })
