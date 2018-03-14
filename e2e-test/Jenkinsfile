@@ -30,6 +30,6 @@ elastest_lib.pipeline({
             stage ("E2E API tests")
                 sh "pip install requests"
         	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
-                sh "python seleniume2e.py ${elastestURL}"
+                sh "cd e2e-test; python seleniume2e.py ${elastestURL}"
         }
   })
