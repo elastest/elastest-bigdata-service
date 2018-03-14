@@ -5,9 +5,9 @@
 from selenium import webdriver
 import time
 import sys
+import selenium
 
 # TODO: Substitute timers with webdriverwaits.
-
 url = sys.argv[1]
 projectname = 'deleteme'
 tjobname = 'deletethisproject'
@@ -25,13 +25,10 @@ hadoop fs -copyFromLocal big.txt /big.txt
 spark-submit --class org.sparkexample.WordCountTask --master spark://spark:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 hadoop fs -getmerge /out.txt ./out.txt
 head -20 out.txt
+ls
 """
 driver = webdriver.Chrome()
-# driver.get("http://localhost:37000")
 driver.get(url)
-
-
-# assert "Dashboard" in driver.title
 
 # Navigate to projects
 # this is normally not necessary, but this method was selected in order to
@@ -69,7 +66,23 @@ driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
 
 # check for success.
+while True:
+    try:
+        res = driver.find_element_by_xpath("//etm-dashboard/div[1]/div/md-card/md-card-content/div/span[1]/span[1][ contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
+        print res.text
+        break
+    except selenium.common.exceptions.NoSuchElementException:
+        print "waiting for job to finish"
+        time.sleep(20)
 
+if 'SUCCESS' in res.text:
+    print 'job succeeded'
+    print res.text
+    exit(0)
+else:
+    print 'job failed'
+    print res.text
+    exit(1)
 
 driver.close()
 
