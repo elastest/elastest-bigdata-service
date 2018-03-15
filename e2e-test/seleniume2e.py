@@ -27,7 +27,9 @@ hadoop fs -getmerge /out.txt ./out.txt
 head -20 out.txt
 ls
 """
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+options.add_argument('headless')
+driver = webdriver.Chrome(chrome_options=options)
 driver.get(url)
 
 # Navigate to projects
