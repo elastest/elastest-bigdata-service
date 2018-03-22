@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+docker network create -d bridge elastest || echo "network already exists"
+
+
 echo "Starting up using docker-compose"
 
 docker-compose --project-name ebs up -d  --force-recreate
