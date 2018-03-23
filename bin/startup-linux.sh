@@ -1,6 +1,7 @@
 #!/bin/bash
 
 docker container prune -f
+docker container rm -f 8b0d144567729cc3dd3d06b626bd2e68da6681b53f9c97b7e34ba96f5579ca0b
 docker network create -d bridge elastest || echo "network already exists"
 
 
