@@ -32,6 +32,7 @@ node('docker'){
             stage "Unit tests"
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
+                sh 'rm rest-api/nosetests.xml' //cleanup previous results
                 step([$class: 'JUnitResultArchiver', testResults: '**/rest-api/nosetests.xml'])
 
             stage "Cobertura"
