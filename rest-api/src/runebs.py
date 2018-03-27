@@ -1,4 +1,3 @@
-# codecov ignore
 
 from flask import Flask, Blueprint
 from flask_restplus import Resource, Api
@@ -17,7 +16,7 @@ from tornado.wsgi import WSGIContainer
 logging.config.fileConfig('logging.conf')
 log = logging.getLogger(__name__)
 
-def configure_app(flask_app):
+def configure_app(flask_app): # pragma: no cover
 #    flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
 
     ebs_port = os.environ.get('EBS_PORT', settings.FLASK_SERVER_PORT)
@@ -36,12 +35,12 @@ def configure_app(flask_app):
     flask_app.config['API_PREFIX'] = settings.API_PREFIX
 
 
-def initialize_app(flask_app):
+def initialize_app(flask_app): # pragma: no cover
     configure_app(flask_app)
     CORS(flask_app)
     add_api(flask_app)
 
-def shutdown_handler(signum=None, frame=None):
+def shutdown_handler(signum=None, frame=None): # pragma: no cover
     log.info('Shutting down...')
     IOLoop.instance().stop()
 
