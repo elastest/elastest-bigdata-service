@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 
-MAINTAINER s.gioldasis@gmail.com
+MAINTAINER ns.gavalas@gmail.com
 
 
 ####installing [software-properties-common] so that we can use [apt-add-repository] to install Java8
