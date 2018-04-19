@@ -33,6 +33,8 @@ node('docker'){
                 echo ("Cleaning up tox cache")
                 sh 'rm -rf /app/.tox'
                 sh 'curl http://restapi:5000/health'
+                sh 'docker --version'
+                sh 'docker ps'
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
                 //sh 'rm rest-api/nosetests.xml || touch rest-api/nosetests.xml' //cleanup previous results
