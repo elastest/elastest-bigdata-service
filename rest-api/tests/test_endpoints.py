@@ -74,7 +74,7 @@ class EdmRestApiTest(unittest.TestCase):
         # response = self.app.get(url, follow_redirects=True)
         response = requests.get(url)
         rdata = response.json()
-        print rdata["status"]
+        print rdata
         self.assertEqual(response.status_code, expected_response)
         self.assertEqual(rdata["status"], expected_response_status)
 
