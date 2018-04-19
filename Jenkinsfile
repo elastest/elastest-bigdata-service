@@ -32,6 +32,7 @@ node('docker'){
             stage "Unit tests"
                 echo ("Cleaning up tox cache")
                 sh 'rm -rf /app/.tox'
+                sh 'curl http://restapi:5000/health'
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
                 //sh 'rm rest-api/nosetests.xml || touch rest-api/nosetests.xml' //cleanup previous results
