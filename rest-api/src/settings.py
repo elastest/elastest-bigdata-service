@@ -1,5 +1,5 @@
 # Flask settings
-#FLASK_SERVER_NAME = 'localhost'
+FLASK_SERVER_NAME = 'restapi'
 FLASK_SERVER_HOST = '0.0.0.0'
 FLASK_SERVER_PORT = 5000
 FLASK_DEBUG = False  # Do not use debug mode in production

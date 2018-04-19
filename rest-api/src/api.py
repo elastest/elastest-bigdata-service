@@ -86,7 +86,7 @@ def add_check_api(app):
 
         return {
                 'spark': spark,
-                'maintainer': 'Savas Gioldasis (s.gioldasis@gmail.com)',
+                'maintainer': 'Nikolaos Stavros Gavalas (ns.gavalas@gmail.com)',
                 'git_repo': 'https://github.com/elastest/elastest-bigdata-service',
                 }
 
