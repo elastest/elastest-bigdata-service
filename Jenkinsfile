@@ -30,6 +30,8 @@ node('docker'){
                 echo ("EBS System is running..")
 
             stage "Unit tests"
+                echo ("Cleaning up tox cache")
+                sh 'rm -rf /app/.tox'
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
                 //sh 'rm rest-api/nosetests.xml || touch rest-api/nosetests.xml' //cleanup previous results
