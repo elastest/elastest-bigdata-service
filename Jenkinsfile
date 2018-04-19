@@ -32,7 +32,6 @@ node('docker'){
             stage "Unit tests"
                 echo ("Cleaning up tox cache")
                 sh 'rm -rf /app/.tox'
-                sh 'curl http://restapi:5000/health'
                 sh 'docker --version'
                 sh 'docker ps'
                 echo ("Starting unit tests...")
