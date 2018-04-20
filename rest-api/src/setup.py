@@ -30,7 +30,6 @@ REQUIRES = [
     'Flask-Cors==3.0.3',
     'flask-restplus==0.10.1',
     'functools32==3.2.3.post2',
-    'py-healthcheck==1.7.0',
     'idna==2.6',
     'isort==4.2.15',
     'itsdangerous==0.24',
