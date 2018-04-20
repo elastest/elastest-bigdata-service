@@ -65,7 +65,6 @@ class EdmRestApiTest(unittest.TestCase):
             r = requests.get(url)
             expected_response = 200
             expected_response_status = TXT_SUCCESS
-
         except requests.exceptions.RequestException as e:  # This is the correct syntax
             expected_response = 200
             expected_response_status = TXT_FAILURE
@@ -75,7 +74,7 @@ class EdmRestApiTest(unittest.TestCase):
         # response = self.app.get(url, follow_redirects=True)
         response = requests.get(url)
         rdata = response.json()
-        print rdata
+        print response.raw
         self.assertEqual(response.status_code, expected_response)
         self.assertEqual(rdata["status"], expected_response_status)
 
@@ -95,8 +94,22 @@ class EdmRestApiTest(unittest.TestCase):
         response = self.app.get(url, follow_redirects=True)
         rdata = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        #  self.assertEqual(rdata["status"], TXT_FAILURE)
+        # self.assertEqual(rdata["status"], TXT_FAILURE)
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+

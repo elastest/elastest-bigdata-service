@@ -34,5 +34,5 @@ virtualenv-clone==0.2.6
 virtualenvwrapper==4.8.1
 Werkzeug==0.12.2
 wrapt==1.10.11
-tornado
+tornado==5.0.1
 tox
