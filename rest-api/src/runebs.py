@@ -49,7 +49,7 @@ def main(): # pragma: no cover
     # Tornado implementation
     initialize_app(app)
 
-    ebs_port = os.environ.get('EBS_PORT', 5001)
+    ebs_port = os.environ.get('EBS_PORT', 5000)
     ebs_server = HTTPServer(WSGIContainer(app))
     ebs_server.listen(address='0.0.0.0', port=ebs_port)
     
