@@ -15,7 +15,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Other settings
-SPARK_MASTER_URL = 'http://spark-master:8080/'
+SPARK_MASTER_URL = 'http://sparkmaster:8080/'
 API_PREFIX = ''
 API_HEALTHCHECK = '/health'
 API_ENVIRONMENT = '/environment'

@@ -70,7 +70,7 @@ class EdmRestApiTest(unittest.TestCase):
             expected_response_status = TXT_FAILURE
 
         url = 'http://'+settings.FLASK_SERVER_NAME+':'+str(settings.FLASK_SERVER_PORT)+settings.API_HEALTHCHECK
-        print 'url is: '+url
+        # print 'url is: '+url
         # response = self.app.get(url, follow_redirects=True)
         response = requests.get(url)
         rdata = response.json()
