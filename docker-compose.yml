@@ -32,6 +32,8 @@ services:
 
   rest-api:
     image: elastest/ebs:latest
+    depends_on:
+      - sparkmaster
     container_name: restapi
     environment:
       - EBS_PORT=5000
