@@ -27,6 +27,7 @@ def add_api(app):
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 alive = False
                 statusString = str(e)
+                statusString = 'failed'
             response = {
                 "status": statusString,
                 "alive": alive}
