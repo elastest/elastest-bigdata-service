@@ -36,11 +36,13 @@ node('docker'){
                 sh 'docker ps'
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
-                //sh 'rm rest-api/nosetests.xml || touch rest-api/nosetests.xml' //cleanup previous results
+                // sh 'docker exec -T rest-api tox'
+                sh 'rm rest-api/nosetests.xml || true' //cleanup previous results
+                sh 'docker cp restapi:/app/nosetests.xml rest-api/'
                 step([$class: 'JUnitResultArchiver', testResults: '**/rest-api/nosetests.xml'])
 
             stage "Cobertura"
-                //sh 'bin/run-tests.sh'
+                // sh 'bin/run-tests.sh'
                 sh('cd rest-api && git rev-parse HEAD > GIT_COMMIT')
                     git_commit=readFile('rest-api/GIT_COMMIT')
                     
