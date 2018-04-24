@@ -38,8 +38,6 @@ services:
     environment:
       - EBS_PORT=5000
       - EBS_SPARK_MASTER_URL=http://sparkmaster:8080/
-    volumes:
-      - ./rest-api:/app
     links:
       - sparkmaster
     ports:
