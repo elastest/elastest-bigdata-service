@@ -23,11 +23,11 @@ def add_api(app):
                 listItems = soup.find_all('li')
                 statusItems = [item.text for item in listItems if 'Status:' in str(item)]
                 alive = True if sum(1 for item in statusItems if 'ALIVE' in str(item)) > 0 else False
-                statusString = 'success' if alive == True else 'failed'
+                statusString = 'up' if alive == True else 'down'
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 alive = False
                 statusString = str(e)
-                statusString = 'failed'
+                statusString = 'down'
             response = {
                 "status": statusString,
                 "alive": alive}
