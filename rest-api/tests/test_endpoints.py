@@ -10,8 +10,10 @@ import requests
 
 import settings
 
-TXT_SUCCESS = 'success'
-TXT_FAILURE = 'failure'
+# TXT_SUCCESS = 'success'
+# TXT_FAILURE = 'failure'
+TXT_SUCCESS = 'up'
+TXT_FAILURE = 'down'
 URL_ERROR   = 'http://spark-down/'
 
 class EdmRestApiTest(unittest.TestCase):
