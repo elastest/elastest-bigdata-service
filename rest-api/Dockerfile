@@ -1,8 +1,14 @@
 FROM gliderlabs/alpine
 
+# Set labels
 LABEL maintainer="s.gioldasis@gmail.com"
-LABEL version="0.1.0"
 LABEL description="Builds the Elastest Bigdata service docker image."
+ARG GIT_COMMIT=unspecified
+LABEL git_commit=$GIT_COMMIT
+ARG COMMIT_DATE=unspecified
+LABEL commit_date=$COMMIT_DATE
+ARG VERSION=unspecified
+LABEL version=$VERSION
 
 WORKDIR /app
 COPY . /app
