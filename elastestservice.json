@@ -42,7 +42,7 @@
 		"plan_id": "f6ed4b3e-e132-47b6-af71-26dbb76e59cb",
 		"service_id": "a1920b13-7d11-4ebc-a732-f86a108ea49c",
 		"endpoints": {
-			"spark": {
+			"sparkmaster": {
 				"description": "Apache Spark",
 				"main": true,
 				"api": {
