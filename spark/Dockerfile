@@ -74,6 +74,15 @@ RUN apt-get -y install git maven
 #####add an xterm in order to be able to easily resize the terminal
 RUN apt-get -y install xterm
 
+##### add elasticsearch jars
+RUN wget https://artifacts.elastic.co/downloads/elasticsearch-hadoop/elasticsearch-hadoop-6.2.4.zip \
+    && unzip elasticsearch-hadoop-6.2.4.zip  \
+    && cd elasticsearch-hadoop-6.2.4/dist/  \
+    && cp -v elasticsearch-spark-20_2.11-6.2.4.jar /opt/spark/jars/
+
+
+
+
 #######exposing port 8080 for spark master UI
 EXPOSE 8080
 
