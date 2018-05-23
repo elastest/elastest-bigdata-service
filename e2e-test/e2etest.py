@@ -17,6 +17,7 @@ print(json.loads(res.text))
 
 # create a tjob in the project
 COMMANDS = """
+
 git clone https://github.com/elastest/demo-projects.git
 
 
@@ -31,6 +32,8 @@ wget https://norvig.com/big.txt
 hadoop fs  -rmr /out.txt
 hadoop fs -rmr /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
+hadoop fs -ls /
+hdfs dfs -pwd
 
 
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
