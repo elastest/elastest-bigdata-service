@@ -33,7 +33,7 @@ hadoop fs -rmr /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
 
 
-spark-submit --class org.sparkexample.WordCountTask --master spark://spark:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
+spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 
 hadoop fs -getmerge /out.txt ./out.txt
 head -10 out.txt"""
