@@ -1,0 +1,23 @@
+swagger: "2.0"
+
+info:
+  title: "{{title}}"
+  version: "0.0.1"
+
+basePath: /ebs
+
+paths:
+  /environment:
+    get:
+      operationId: get_environment
+      responses:
+        '200':
+          description: Success
+      summary: Returns details of the component's environment
+  /health:
+    get:
+      operationId: get_health_checl
+      responses:
+        '200':
+          description: Success
+      summary: Returns the overall health status of the component
