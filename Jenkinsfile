@@ -37,7 +37,7 @@ node('docker'){
                 echo ("Starting unit tests...")
                 sh 'bin/run-tests.sh'
                 // sh 'docker exec -T rest-api tox'
-                sh 'rm rest-api/nosetests.xml || true' //cleanup previous results
+                // sh 'rm rest-api/nosetests.xml || true' //cleanup previous results
                 sh 'docker cp restapi:/app/nosetests.xml rest-api/'
                 step([$class: 'JUnitResultArchiver', testResults: '**/rest-api/nosetests.xml'])
 
