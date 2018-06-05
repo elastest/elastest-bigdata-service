@@ -68,8 +68,10 @@ time.sleep(1)
 driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
 
+# default wait 10 minutes
+TSS_MAX_WAIT  = 600
 # check for success.
-while True:
+while TSS_MAX_WAIT > 0:
     try:
         res = driver.find_element_by_xpath("//etm-dashboard/div[1]/div/md-card/md-card-content/div/span[1]/span[1][ contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
         print(res.text)
@@ -77,6 +79,8 @@ while True:
     except selenium.common.exceptions.NoSuchElementException:
         print("waiting for job to finish")
         time.sleep(20)
+        TSS_MAX_WAIT = TSS_MAX_WAIT - 20
+
 
 if 'SUCCESS' in res.text:
     print('job succeeded')
