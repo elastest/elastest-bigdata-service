@@ -3,6 +3,14 @@ FROM ubuntu:14.04
 
 MAINTAINER ns.gavalas@gmail.com
 
+ENV SPARK_VERSION       2.1.1
+ENV HADOOP_VERSION      2.7
+ENV HADOOP_LVERSION     2.7.3
+ENV ALLUXIO_VERSION     1.5.0
+
+ENV JAVA_HOME     /usr/lib/jvm/java-8-oracle
+ENV ALLUXIO_HOME         /opt/alluxio
+ENV SPARK_HOME         /opt/spark
 
 ####installing [software-properties-common] so that we can use [apt-add-repository] to install Java8
 RUN apt-get update -y && apt-get install software-properties-common -y \
@@ -21,8 +29,6 @@ RUN apt-get update -y && apt-get install software-properties-common -y \
     supervisor \
     git \
     maven && \
-    
-    
     # Hadoop installation
     wget http://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_LVERSION/hadoop-$HADOOP_LVERSION.tar.gz && \
     tar -zxf /hadoop-$HADOOP_LVERSION.tar.gz && \
@@ -30,20 +36,17 @@ RUN apt-get update -y && apt-get install software-properties-common -y \
     mv hadoop-$HADOOP_LVERSION /usr/local/hadoop && \
     mkdir -p /usr/local/hadoop/logs && \
     cd / && \
-
     # alluxio installation
 	wget http://alluxio.org/downloads/files/${ALLUXIO_VERSION}/alluxio-${ALLUXIO_VERSION}-hadoop-${HADOOP_VERSION}-bin.tar.gz && \
 	tar xvfz alluxio-${ALLUXIO_VERSION}-hadoop-${HADOOP_VERSION}-bin.tar.gz && \
 	rm alluxio-${ALLUXIO_VERSION}-hadoop-${HADOOP_VERSION}-bin.tar.gz && \
 	mv alluxio-${ALLUXIO_VERSION}-hadoop-${HADOOP_VERSION} $ALLUXIO_HOME && \
     cd / && \
-
     # spark installation 
 	wget https://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
 	tar -xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
 	rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
 	mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} $SPARK_HOME && \
-
     # elasticsearch client
     wget https://artifacts.elastic.co/downloads/elasticsearch-hadoop/elasticsearch-hadoop-6.2.4.zip && \
     unzip elasticsearch-hadoop-6.2.4.zip  && \
@@ -52,27 +55,23 @@ RUN apt-get update -y && apt-get install software-properties-common -y \
     cd ../../ && \
     rm -rf elasticsearch-hadoop-6.2.4* && \
     rm -rf elasticsearch-hadoop-6.2.4.zip && \
-
-
-
     # general cleanup
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/lib/apt/lists/* 
 
 
-ENV JAVA_HOME     /usr/lib/jvm/java-8-oracle
+# Hadoop
 ENV PATH          $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
 #### Environmental Variables
 ENV SPARK_VERSION       2.1.1
 ENV HADOOP_VERSION      2.7
 ENV ALLUXIO_VERSION     1.5.0
 
 #### Alluxio
-ENV ALLUXIO_HOME         /opt/alluxio
 ENV PATH          $PATH:$ALLUXIO_HOME/bin
 
 #### Spark 
-ENV SPARK_HOME         /opt/spark
 ENV PATH          $PATH:$SPARK_HOME/bin
 
 #####adding conf files [to be used by supervisord for running spark master/slave]
