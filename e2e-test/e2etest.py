@@ -30,11 +30,11 @@ wget https://norvig.com/big.txt
 
 
 #clean the pre-existing file
-hadoop fs  -rmr /out.txt
-hadoop fs -rmr /big.txt
+hadoop fs  -rm -r /out.txt
+hadoop fs -rm -r /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
 hadoop fs -ls /
-hdfs dfs -pwd
+# hdfs dfs -pwd
 
 
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
