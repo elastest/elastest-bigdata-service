@@ -17,7 +17,7 @@ print(json.loads(res.text))
 
 # create a tjob in the project
 COMMANDS = """
-exit 0
+
 
 git clone https://github.com/elastest/demo-projects.git
 
