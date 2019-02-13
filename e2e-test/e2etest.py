@@ -100,7 +100,7 @@ print(exec_resp.text)
 execId = json.loads(exec_resp.text)["monitoringIndex"]
 #execId = json.loads(exec_resp.text)["logIndex"]
 
-TSS_MAX_WAIT = 60 #10 minute max wait time
+TSS_MAX_WAIT = 600 #10 minute max wait time
 while ("FAIL" != str(json.loads(exec_resp.text)["result"]).strip()) and ("SUCCESS" != str(json.loads(exec_resp.text)["result"]).strip()) and (TSS_MAX_WAIT > 0):
     print(("TJob execution status is: "+str(json.loads(exec_resp.text)["result"])))
     exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
