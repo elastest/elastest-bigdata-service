@@ -21,17 +21,17 @@ COMMANDS = """
 
 git clone https://github.com/elastest/demo-projects.git
 
-echo "Cloned GIT"
+echo Cloned GIT
 
 cd demo-projects/ebs-test
 
 mvn package
-echo "Run mvn"
+echo Run mvn
 
 rm -f big.txt
 wget https://norvig.com/big.txt
 
-echo "Run wget"
+echo Run wget
 
 #clean the pre-existing file
 hadoop fs  -rm -r /out.txt
@@ -40,14 +40,16 @@ hadoop fs -copyFromLocal big.txt /big.txt
 hadoop fs -ls /
 # hdfs dfs -pwd
 
-echo "Finished hadoop"
+echo Finished hadoop
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 
 echo "run spark"
 hadoop fs -getmerge /out.txt ./out.txt
-head -10 out.txt"""
+head -10 out.txt
+echo finish
 
-echo "finish"
+"""
+
 
 tjob=json.dumps({ "id": 0,
   "name": "demotjob",
