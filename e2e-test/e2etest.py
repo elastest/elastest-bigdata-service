@@ -17,6 +17,7 @@ print(json.loads(res.text))
 
 # create a tjob in the project
 COMMANDS = """
+
 git clone https://github.com/elastest/demo-projects.git
 cd demo-projects/ebs-test
 mvn package
@@ -34,6 +35,7 @@ spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster
 
 hadoop fs -getmerge /out.txt ./out.txt
 head -10 out.txt
+
 """
 
 
