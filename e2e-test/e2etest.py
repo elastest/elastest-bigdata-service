@@ -24,8 +24,8 @@ mvn package
 rm -f big.txt
 wget https://norvig.com/big.txt
 #clean the pre-existing file
-hadoop fs  -rmr /out.txt
-hadoop fs -rmr /big.txt
+hadoop fs  -rm /out.txt
+hadoop fs -rm /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
 hadoop fs -ls /
 hdfs dfs -pwd
