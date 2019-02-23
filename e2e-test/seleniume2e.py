@@ -31,7 +31,7 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 driver = webdriver.Chrome(chrome_options=options)
 driver.get(url)
-print('1')
+
 # Navigate to projects
 # this is normally not necessary, but this method was selected in order to
 # avoid E2E test issues in case the 'New Project' button is removed from the
@@ -44,14 +44,13 @@ if not elemProjects.is_displayed():
 elemProjects.click()
 time.sleep(1)
 
-print('2')
 # create new project
 driver.find_element_by_xpath("//button[contains(string(), 'New Project')]").click()
 driver.find_element_by_name("project.name").send_keys(projectname)
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
 
-print('3')
+print('1')
 # create new tjob
 driver.find_element_by_xpath("//button[contains(string(), 'New TJob')]").click()
 time.sleep(5)
