@@ -62,7 +62,7 @@ driver.find_element_by_name("commands").send_keys(commands)
 driver.find_element_by_xpath("//md-checkbox[@title='Select EBS']").click()
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
-print('4')
+print('2')
 # run tjob
 driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
