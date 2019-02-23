@@ -56,7 +56,7 @@ driver.find_element_by_xpath("//button[contains(string(), 'New TJob')]").click()
 time.sleep(5)
 driver.find_element_by_name("tJobName").send_keys(tjobname)
 driver.find_element_by_class_name("mat-select-trigger").click()                  # ugly way of navigating to SuT
-driver.find_element_by_xpath("//md-option[contains(string(), 'None')]").click()  # but it is mandatory.
+# driver.find_element_by_xpath("//md-option[contains(string(), 'None')]").click()  # but it is mandatory.
 driver.find_element_by_name("tJobImageName").send_keys(tjobimage)
 driver.find_element_by_name("commands").send_keys(commands)
 driver.find_element_by_xpath("//md-checkbox[@title='Select EBS']").click()
