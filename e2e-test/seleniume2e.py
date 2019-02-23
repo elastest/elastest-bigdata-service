@@ -59,7 +59,7 @@ driver.find_element_by_class_name("mat-select-trigger").click()                 
 # driver.find_element_by_xpath("//md-option[contains(string(), 'None')]").click()  # but it is mandatory.
 driver.find_element_by_name("tJobImageName").send_keys(tjobimage)
 driver.find_element_by_name("commands").send_keys(commands)
-driver.find_element_by_xpath("//md-checkbox[@title='Select EBS']").click()
+driver.find_element_by_xpath("//mat-checkbox[@title='Select EBS']").click()
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
 print('2')
