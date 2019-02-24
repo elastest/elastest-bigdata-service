@@ -50,7 +50,6 @@ driver.find_element_by_name("project.name").send_keys(projectname)
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
 
-print('1')
 # create new tjob
 driver.find_element_by_xpath("//button[contains(string(), 'New TJob')]").click()
 time.sleep(5)
@@ -66,7 +65,7 @@ driver.find_element_by_xpath("//mat-checkbox[@id='serviceEBS']/label").click()
 # xpath("//*[@id='mat-checkbox-1']/label")).click()
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
-print('2')
+
 # run tjob
 driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
