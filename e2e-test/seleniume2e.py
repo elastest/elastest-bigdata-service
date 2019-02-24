@@ -55,8 +55,8 @@ print('1')
 driver.find_element_by_xpath("//button[contains(string(), 'New TJob')]").click()
 time.sleep(5)
 driver.find_element_by_name("tJobName").send_keys(tjobname)
-driver.find_element_by_class_name("//mat-select/div/div/span[contains(string(), 'Select a SuT')]").click()
-driver.find_element_by_class_name("//mat-option/span[contains(string(), 'None')]").click()
+driver.find_element_by_xpath("//mat-select/div/div/span[contains(string(), 'Select a SuT')]").click()
+driver.find_element_by_xpath("//mat-option/span[contains(string(), 'None')]").click()
 # driver.find_element_by_class_name("mat-select-trigger").click()                  # ugly way of navigating to SuT
 # driver.find_element_by_xpath("//md-option[contains(string(), 'None')]").click()  # but it is mandatory.
 driver.find_element_by_name("tJobImageName").send_keys(tjobimage)
