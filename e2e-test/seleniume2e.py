@@ -76,7 +76,7 @@ TSS_MAX_WAIT  = 300
 while TSS_MAX_WAIT > 0:
     try:
 # res = driver.find_element_by_xpath("//etm-dashboard/div[1]/div/md-card/md-card-content/div/span[1]/span[1][ contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
-res = driver.find_element_by_xpath("//mat-card-subtitle[ contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
+res = driver.find_element_by_xpath("//mat-card-subtitle[contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
     print(res.text)
         break
     except selenium.common.exceptions.NoSuchElementException:
