@@ -16,9 +16,7 @@ def elastest_network = env.NETWORK
 //definition of nodes is managed by the library. Just declare the steps of your pipeline
 //inside the elastest_lib.pipeline({...})
 elastest_lib.pipeline({
-    
-    try {
-            
+  
         stage ('docker container')
             def mycontainer = elastest.ctx.docker.image('elastest/ci-docker-e2e:latest')
             mycontainer.pull()
@@ -42,7 +40,9 @@ elastest_lib.pipeline({
                 
                     echo 'Prepare network'
                     elastest.connect2ElastestNetwork()
-                    def elastestURL = elastest.getEtmUrl()
+                    def elastestUser = elastest.getElasTestUser()
+		    def elastestPass = elastest.getElasTestPassword()
+		    def elastestURL = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
 
                     
                     stage ("E2E tests")                        
@@ -52,20 +52,8 @@ elastest_lib.pipeline({
                         } catch(e) {
                             sh 'docker ps | awk "{print $NF}" | grep ece | xargs docker logs'
                         }
-            }
-    } catch (err) {
-        echo 'Error!!! Send email to the people responsible for the builds.'
-        throw err
-    }
-})
-  
-  def containerIp(containerName, network) {
-    echo "Inside containerIp function"
-    containerIp = sh (
-        script: "docker inspect --format=\"{{.NetworkSettings.Networks."+network+".IPAddress}}\" "+ containerName,
-        returnStdout: true
-    ).trim()
-    
-    echo containerName+" IP = " + containerIp;
-    return containerIp;
-}
+
+            stage ("results")
+                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+        }
+  })  
