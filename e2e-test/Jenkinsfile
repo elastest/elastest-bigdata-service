@@ -1,38 +1,71 @@
-@Library('ciElastestConnect') _
-
+@Library('ciElastestConnect@fullyconfigurable') _
 elastest_lib.setVersion('dev')
 //initialization of the context for the library
 elastest_lib.setContext(this)
+elastest_lib.setMode('experimental-lite')
+if (env.WITH_SA == 'true') {
+	elastest_lib.setOptionals('-sa='+env.SA)
+}
+elastest_lib.setShared( env.SHARED_ELASTEST == 'true')
+elastest_lib.setTestLink(true)
 elastest_lib.setAuthenticatedElastest(true)
-
 //initialization of the runnable object to access elastest methods inside the pipeline
 def elastest= elastest_lib.getElastestMethods()
+def elastest_network = env.NETWORK
 
-elastest_lib.setMode('experimental-lite')
 //definition of nodes is managed by the library. Just declare the steps of your pipeline
 //inside the elastest_lib.pipeline({...})
-
-elastest_lib.setVerbose(true)
-
 elastest_lib.pipeline({
     
-    stage ('docker container')
-        def mycontainer = elastest.ctx.docker.image('elastest/ci-docker-e2e-compose-py:latest')
-        mycontainer.pull()
-        mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
-            sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-          
-            stage ('prepare')
-                git 'https://github.com/elastest/elastest-bigdata-service.git'
-                elastest.connect2ElastestNetwork()
-                def elastestUser = elastest.getElasTestUser()
-                def elastestPass = elastest.getElasTestPassword()
-                // def elastestURL = elastest.getEtmUrl() //TO BE REMOVED
-                def elastestURL = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
-            stage ("E2E API tests")
-        	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
-            stage("E2E UI tests")
-                sh "cd e2e-test; python seleniume2e.py ${elastestURL}"
-        }
-  })
+    try {
+            
+        stage ('docker container')
+            def mycontainer = elastest.ctx.docker.image('elastest/ci-docker-e2e:latest')
+            mycontainer.pull()
+            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+                sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
+                def testRepositoryDirectory = 'elastest'
+                
+                stage ('prepare test')
+                    def testDirectoryExists = fileExists 'elastest'
+                    if (testDirectoryExists) {
+                        echo 'The elastest directory exists'
+                    } else {
+                        echo 'There is no elastset directory'
+                        sh 'mkdir elastest'
+                    }
+                    
+                    dir(testRepositoryDirectory) {
+                        echo 'Existing files before cloning the git repository'
+                        git 'https://github.com/elastest/elastest-bigdata-service.git'
+                    }
+                
+                    echo 'Prepare network'
+                    elastest.connect2ElastestNetwork()
+                    def elastestURL = elastest.getEtmUrl()
 
+                    
+                    stage ("E2E tests")                        
+                        try {
+                            echo "Run tests"
+                            sh "cd e2e-test;python e2etest.py ${elastestURL}"
+                        } catch(e) {
+                            sh 'docker ps | awk "{print $NF}" | grep ece | xargs docker logs'
+                        }
+            }
+    } catch (err) {
+        echo 'Error!!! Send email to the people responsible for the builds.'
+        throw err
+    }
+})
+  
+  def containerIp(containerName, network) {
+    echo "Inside containerIp function"
+    containerIp = sh (
+        script: "docker inspect --format=\"{{.NetworkSettings.Networks."+network+".IPAddress}}\" "+ containerName,
+        returnStdout: true
+    ).trim()
+    
+    echo containerName+" IP = " + containerIp;
+    return containerIp;
+}
