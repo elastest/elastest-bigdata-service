@@ -1,5 +1,6 @@
 ######################
 # Author: Nick Gavalas
+# 2/3/2019 fixed by Kimon Moschandreou
 ######################
 
 from selenium import webdriver
