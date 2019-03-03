@@ -35,10 +35,7 @@ node {
     	                } catch(e) {
     	                   // Using etm because is experimental-lite
     	                    sh '''\
-    	                       docker ps --all
-    	                       docker ps --filter name=etm_1 -q
-    	                       docker ps --filter name=etm_1 -q | xargs -L 1 docker logs || true
-    	                       docker ps --filter name=etm_1 -q | xargs -L 1 docker inspect || true
+                            echo "error occurred"
     	                    '''
     						throw e
     	                } finally {
