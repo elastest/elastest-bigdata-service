@@ -17,9 +17,21 @@ print(json.loads(res.text))
 
 # create a tjob in the project
 COMMANDS = """
+exit
 git clone https://github.com/elastest/demo-projects.git
 cd demo-projects/ebs-test
-mvn packaget"""
+mvn package
+rm -f big.txt
+wget https://norvig.com/big.txt
+#clean the pre-existing file
+hadoop fs  -rm /out.txt
+hadoop fs -rm /big.txt
+hadoop fs -copyFromLocal big.txt /big.txt
+hadoop fs -ls /
+hdfs dfs -pwd
+spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
+hadoop fs -getmerge /out.txt ./out.txt
+head -10 out.tx"""
 
 
 tjob=json.dumps({ "id": 0,
