@@ -19,15 +19,18 @@ print(json.loads(res.text))
 COMMANDS = """
 git clone https://github.com/elastest/demo-projects.git
 cd demo-projects/ebs-test
+echo "1"
 mvn package
 rm -f big.txt
 wget https://norvig.com/big.txt
 #clean the pre-existing file
+echo "2"
 hadoop fs  -rm /out.txt
 hadoop fs -rm /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
 hadoop fs -ls /
 hdfs dfs -pwd
+echo "3"
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 hadoop fs -getmerge /out.txt ./out.txt
 head -10 out.txt"""
