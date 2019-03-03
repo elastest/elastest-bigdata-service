@@ -31,7 +31,7 @@ node {
     	                
     	            stage ("E2E tests")
     	                try {
-        	    sh "cd e2e-test;echo ${elastestURL}"
+        	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
     	                } catch(e) {
     	                   // Using etm because is experimental-lite
     	                    sh '''\
