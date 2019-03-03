@@ -34,9 +34,7 @@ node {
         	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
     	                } catch(e) {
     	                   // Using etm because is experimental-lite
-    	                    sh '''\
-                            echo "error occurred"
-    	                    '''
+    	                    sh "echo kimon"
     						throw e
     	                } finally {
     	                    step([$class: 'JUnitResultArchiver', testDataPublishers: [[$class: 'AttachmentPublisher']], testResults: '**/target/surefire-reports/TEST-*.xml'])
