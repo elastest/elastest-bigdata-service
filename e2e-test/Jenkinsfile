@@ -12,7 +12,7 @@ node('et_in_et'){
                     
                 stage ("Run tests")
                     try {
-                        sh "cd e2e-test;sudo pip install requests;python e2etest.py ${elastest_url}"
+                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     } finally {
