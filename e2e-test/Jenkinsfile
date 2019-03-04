@@ -12,7 +12,7 @@ node('et_in_et'){
                     
                 stage ("Run tests")
                     try {
-                        sh "cd e2e-test;sh 'env | sort'"
+                        sh "cd e2e-test;env | sort"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     } finally {
