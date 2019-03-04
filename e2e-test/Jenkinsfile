@@ -12,7 +12,8 @@ node('et_in_et'){
                     
                 stage ("Run tests")
                     try {
-                        sh "cd e2e-test;python e2etest.py ${elastestURL}"
+ #                       sh "cd e2e-test;python e2etest.py ${elastestURL}"
+                         sh "env | sort"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     } 
