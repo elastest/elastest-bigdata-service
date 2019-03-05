@@ -18,7 +18,13 @@ node('et_in_et'){
                         sh "cd e2e-test;python e2etest.py ${elastest_url}"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
-                    }      
+                    }    
+		    stage ("Run tests 2")
+                    try {
+                        sh "cd e2e-test;python seleniume2e.py.py ${elastest_url}"
+                    } catch(e) {
+                        echo 'Err: ' + e.toString()
+                    }     
 	    }
 	}
 }
