@@ -11,11 +11,7 @@ node('et_in_et'){
                 stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest.connect2ElastestNetwork()
-
-                        def elastestUser = elastest.getElasTestUser()
-                        def elastestPass = elastest.getElasTestPassword()
-                       	echo ${elastestUser},${elastestPass}
-                        elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
+		        elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
                   }
 	}
 }
