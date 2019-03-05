@@ -12,6 +12,12 @@ node('et_in_et'){
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest.connect2ElastestNetwork()
 		        elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
-                  }
+            stage ("Run tests")
+                    try {
+                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
+                    } catch(e) {
+                        echo 'Err: ' + e.toString()
+                    }      
+	    }
 	}
 }
