@@ -15,7 +15,7 @@ node('et_in_et'){
                         def elastestUser = elastest.getElasTestUser()
                         def elastestPass = elastest.getElasTestPassword()
                        	echo ${elastestUser},${elastestPass}
-                        elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
+    //                    elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
                   }
 	}
 }
