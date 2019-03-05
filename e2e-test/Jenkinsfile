@@ -1,8 +1,8 @@
 def elastest_url = ''
 node('et_in_et'){
-    elastest(tss: ['EBS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11) {        
+    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11) {        
         stage ('docker container')
-            def mycontainer = docker.image('elastest/ebs-spark:latest')
+            def mycontainer = docker.image('elastest/ci-docker-e2e:latest')
             mycontainer.pull()
             mycontainer.inside()  {
                 
@@ -12,7 +12,7 @@ node('et_in_et'){
                 sh "env | sort"    
                 stage ("Run tests")
                     try {
-                        sh "git clone https://github.com/elastest/demo-projects;cd /demo-projects/unit/python-unit-test;python UnitTest.py;"
+                        sh "docker ps"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     } 
