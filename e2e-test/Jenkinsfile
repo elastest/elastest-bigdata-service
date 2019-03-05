@@ -7,12 +7,16 @@ node('et_in_et'){
             mycontainer.inside()  {
                 
                 stage ('prepare test')
-                    git 'https://github.com/elastest/elastest-bigdata-service.git'
-                def elastestUser = elastest.getElasTestUser()
-                def elastestPass = elastest.getElasTestPassword()
-                    elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
-                sh "env | sort"    
-                stage ("Run tests")
+                    try {
+                        git 'https://github.com/elastest/elastest-bigdata-service.git'
+                        def elastestUser = elastest.getElasTestUser()
+                        def elastestPass = elastest.getElasTestPassword()
+                        elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
+                        sh "env | sort"    
+                    }  catch(e1) {
+                        echo 'Err: ' + e1.toString()
+                    } 
+                 stage ("Run tests")
                     try {
                         sh "cd e2e-test;python e2etest.py ${elastest_url}"
                     } catch(e) {
