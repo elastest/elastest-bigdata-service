@@ -6,21 +6,16 @@ node('et_in_et'){
             mycontainer.pull()
             mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
                 sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-                
+                sh "env | sort"    
+
                 stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest.connect2ElastestNetwork()
 
                         def elastestUser = elastest.getElasTestUser()
                         def elastestPass = elastest.getElasTestPassword()
+                       	echo ${elastestUser},${elastestPass}
                         elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
-                        sh "env | sort"    
-                 stage ("Run tests")
-                    try {
-                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
-                    } catch(e) {
-                        echo 'Err: ' + e.toString()
-                    } 
-            }
-    }
+                  }
+	}
 }
