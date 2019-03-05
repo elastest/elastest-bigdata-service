@@ -10,7 +10,7 @@ node('et_in_et'){
 
                 stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
-                        elastest.connect2ElastestNetwork()
+                        
 		        elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
             echo "url:" + elastest_url
 		    stage ("Run tests")
