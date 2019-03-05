@@ -21,7 +21,7 @@ node('et_in_et'){
                     }    
 		    stage ("Run tests 2")
                     try {
-                        sh "cd e2e-test;python seleniume2e.py.py ${elastest_url}"
+                        sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     }     
