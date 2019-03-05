@@ -9,6 +9,8 @@ node('et_in_et'){
                 
                 stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
+                        elastest.connect2ElastestNetwork()
+
                         def elastestUser = elastest.getElasTestUser()
                         def elastestPass = elastest.getElasTestPassword()
                         elastest_url = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
