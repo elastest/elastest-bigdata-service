@@ -4,7 +4,8 @@ node('et_in_et'){
         stage ('docker container')
             def mycontainer = docker.image('elastest/ci-docker-compose-py-siblings:latest')
             mycontainer.pull()
-            mycontainer.inside()  {
+            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+                sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
                 
                 stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
