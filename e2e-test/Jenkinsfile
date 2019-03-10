@@ -18,7 +18,7 @@ node('et_in_et'){
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     }    
-				stage ('Run same test through selenium)
+				stage ('Run same test through selenium')
                     try {
                         sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
                     } catch(e) {
