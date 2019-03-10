@@ -5,12 +5,11 @@ node('et_in_et'){
 	    try {
             	def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
             	mycontainer.pull()
-            	mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
-                sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-                sh "env | sort"    
-		} catch(e) {
-                	    echo 'Err: ' + e.toString()
-                    	   }   
+            	mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")
+					{
+					sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
+					sh "env | sort"    
+					} 
 
          stage ('prepare test')
 	    try {
@@ -32,6 +31,8 @@ node('et_in_et'){
                     } catch(e) {
          	               echo 'Err: ' + e.toString()
                 	       }     
-	    }
+	    } catch(e) {
+                	    echo 'Err: ' + e.toString()
+                    	   }   
 	}
 }
