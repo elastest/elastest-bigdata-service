@@ -1,38 +1,30 @@
-@Library('ciElastestConnect') _
+def elastest_url = ''
+node('et_in_et'){
+    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11) {        
+        stage ('docker container')
+            def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
+            mycontainer.pull()
+            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+                sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
+                sh "env | sort"    
 
-elastest_lib.setVersion('dev')
-//initialization of the context for the library
-elastest_lib.setContext(this)
-elastest_lib.setAuthenticatedElastest(true)
-
-//initialization of the runnable object to access elastest methods inside the pipeline
-def elastest= elastest_lib.getElastestMethods()
-
-elastest_lib.setMode('experimental-lite')
-//definition of nodes is managed by the library. Just declare the steps of your pipeline
-//inside the elastest_lib.pipeline({...})
-
-elastest_lib.setVerbose(true)
-
-elastest_lib.pipeline({
-    
-    stage ('docker container')
-        def mycontainer = elastest.ctx.docker.image('elastest/ci-docker-e2e-compose-py:latest')
-        mycontainer.pull()
-        mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
-            sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-          
-            stage ('prepare')
-                git 'https://github.com/elastest/elastest-bigdata-service.git'
-                elastest.connect2ElastestNetwork()
-                def elastestUser = elastest.getElasTestUser()
-                def elastestPass = elastest.getElasTestPassword()
-                // def elastestURL = elastest.getEtmUrl() //TO BE REMOVED
-                def elastestURL = "http://" + elastestUser +":"+ elastestPass+"@"+elastest.getIp()+":"+elastest.getPort()
-            stage ("E2E API tests")
-        	    sh "cd e2e-test;python e2etest.py ${elastestURL}"
-            stage("E2E UI tests")
-                sh "cd e2e-test; python seleniume2e.py ${elastestURL}"
-        }
-  })
-
+                stage ('prepare test')
+                        git 'https://github.com/elastest/elastest-bigdata-service.git'
+                        
+		        elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
+            echo "url:" + elastest_url
+		    stage ("Run tests")
+                    try {
+                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
+                    } catch(e) {
+                        echo 'Err: ' + e.toString()
+                    }    
+		    stage ("Run tests 2")
+                    try {
+                        sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
+                    } catch(e) {
+                        echo 'Err: ' + e.toString()
+                    }     
+	    }
+	}
+}

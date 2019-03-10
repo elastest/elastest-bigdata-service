@@ -4,8 +4,6 @@ import time
 import sys
 
 # create a dummy project
-
-
 url = sys.argv[1]
 res = requests.get(url)
 data = json.dumps({"id": 666, "name": "EBSE2E"})
