@@ -1,13 +1,16 @@
 def elastest_url = ''
 node('et_in_et'){
-    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11) {        
+    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11)
+    {        
         stage ('docker container')
+        {
             def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
             mycontainer.pull()
-            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm") 
+            {
                 sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
                   
-                stage ('prepare test')
+                stage ('Prepare test')
                 {   
                    try {
                       git 'https://github.com/elastest/elastest-bigdata-service.git'
@@ -16,7 +19,8 @@ node('et_in_et'){
 			} catch(e) {
                 	    	   echo 'Err: ' + e.toString()
                 	    	   }			
-		}
+		} // end of stage ('prepare test') block
+		
 		stage ('Run first test as a TJob')
 		{
                     try {
@@ -24,7 +28,8 @@ node('et_in_et'){
                     } catch(e) {
                         	echo 'Err: ' + e.toString()
                     	       }    
-		}
+		}  //end of stage ('Run first test as a TJob') block
+		
 		stage ('Run same test through selenium')
                 {
                     try {
@@ -32,7 +37,9 @@ node('et_in_et'){
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     }
-                }    
+                }    // end of stage ('Run same test through selenium') block
+                
 	    }   //end of mycontainer.inside block
-	}   //end of elastest block
+	}  // end of stage ('docker container') block
+    }   //end of elastest block
 }   //end of node block
