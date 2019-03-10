@@ -2,7 +2,7 @@ def elastest_url = ''
 node('et_in_et'){
         elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11) {        
         stage ('docker container')
-	    try {
+	   
             	def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
             	mycontainer.pull()
             	mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")
@@ -30,8 +30,6 @@ node('et_in_et'){
                     } catch(e) {
          	               echo 'Err: ' + e.toString()
                 	       }     
-	    } catch(e) {
-                	    echo 'Err: ' + e.toString()
-                    	   }   
+	     
 	}
 }
