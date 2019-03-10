@@ -9,7 +9,6 @@ node('et_in_et'){
 					{
 					sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
 					} 
-
 	stage ('prepare test') {
 	    try {
                 git 'https://github.com/elastest/elastest-bigdata-service.git'
