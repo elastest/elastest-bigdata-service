@@ -6,12 +6,12 @@ node('et_in_et'){
             mycontainer.pull()
             mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
                 sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-                sh "env | sort"    
-                stage ('prepare test')
+                  
+                stage ('prepare test') {
                       git 'https://github.com/elastest/elastest-bigdata-service.git'
 		      elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
-		     echo "url:" + elastest_url
-					
+		      echo "url:" + elastest_url
+		}			
 		stage ('Run first test as a TJob')
                     try {
                         sh "cd e2e-test;python e2etest.py ${elastest_url}"
