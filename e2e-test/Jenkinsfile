@@ -18,17 +18,21 @@ node('et_in_et'){
                 	    	   }			
 		}
 		stage ('Run first test as a TJob')
+		{
                     try {
                         sh "cd e2e-test;python e2etest.py ${elastest_url}"
                     } catch(e) {
                         	echo 'Err: ' + e.toString()
                     	       }    
+		}
 		stage ('Run same test through selenium')
+                {
                     try {
                         sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
                     } catch(e) {
                         echo 'Err: ' + e.toString()
-                    }     
+                    }
+                }    
 	    }   //end of mycontainer.inside block
 	}   //end of elastest block
 }   //end of node block
