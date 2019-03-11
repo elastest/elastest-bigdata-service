@@ -16,7 +16,7 @@ paths:
       summary: Returns details of the component's environment
   /health:
     get:
-      operationId: get_health_checl
+      operationId: get_health_check
       responses:
         '200':
           description: Success
