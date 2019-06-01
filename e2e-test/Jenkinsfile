@@ -7,7 +7,7 @@ node('et_in_et'){
                 mycontainer.pull()
                 mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
                     sh 'env'
-		  //  sh 'apt-get -y install python3-pip'
+		    sh 'apt-get -y install python3-pip'
                     sh 'apt list --installed | grep python | sort'
 	    stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
