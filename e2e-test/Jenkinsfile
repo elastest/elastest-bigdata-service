@@ -12,15 +12,13 @@ node('et_in_et'){
                         elastest_url = env.ET_SUT_PROTOCOL + '://' + env.ET_SUT_HOST + ':' + env.ET_SUT_PORT
                         
                     stage ("Run tests")
-         //               try {
-         //                 sh "cd e2e-test; mvn -B clean test -Dtest=io.elastest.etm.test.e2e.demoprojects.** -DetEtmApi=" + elastest_url + " -DeUser=${DEV_USER} -DePass=${DEV_PASS}"
-         //                } catch(err) {
-         //                   def errString = err.toString()
-         //                   currentBuild.result = getJobStatus(errString)
-         //                   throw err
-         //               } finally {
-         //                   step([$class: 'JUnitResultArchiver', testDataPublishers: [[$class: 'AttachmentPublisher']], testResults: '**/target/surefire-reports/TEST-*.xml'])
-         //               }
+					{
+                    try {
+                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
+						} catch(e) {
+                        	echo 'Err: ' + e.toString()
+									}    
+					}  //end of "Run Tests" block
                 }
         }
     } catch (err) {
