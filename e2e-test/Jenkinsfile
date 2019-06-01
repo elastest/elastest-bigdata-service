@@ -3,14 +3,10 @@ node('et_in_et'){
         elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 7) {
             def elastest_url = ''
             stage ('docker container')
-                def mycontainer = docker.image('elastest/ci-docker-e2e:latest')
+                def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
                 mycontainer.pull()
                 mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
                     sh 'env'
-		    sh 'apt-get -y -q install python3-pip'
-		    sh 'apt-get -y -q install python3-setuptools'
-		    sh 'pip3 -q install requests'
-		    sh 'pip3 -q install selenium'
             stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest_url = env.ET_SUT_PROTOCOL + "://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
