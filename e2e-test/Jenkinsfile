@@ -1,45 +1,50 @@
-def elastest_url = ''
 node('et_in_et'){
-    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 11)
-    {        
-        stage ('docker container')
-        {
-            def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
-            mycontainer.pull()
-            mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm") 
-            {
-                sh '/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &'
-                  
-                stage ('Prepare test')
-                {   
-                   try {
-                      git 'https://github.com/elastest/elastest-bigdata-service.git'
-		      elastest_url = "http://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
-		      echo "url:" + elastest_url
-			} catch(e) {
-                	    	   echo 'Err: ' + e.toString()
-                	    	   }			
-		} // end of stage ('prepare test') block
-		
-		stage ('Run first test as a TJob')
-		{
-                    try {
-                        sh "cd e2e-test;python e2etest.py ${elastest_url}"
-                    } catch(e) {
-                        	echo 'Err: ' + e.toString()
-                    	       }    
-		}  //end of stage ('Run first test as a TJob') block
-		
-		stage ('Run same test through selenium')
-                {
-                    try {
-                        sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
-                    } catch(e) {
-                        echo 'Err: ' + e.toString()
-                    }
-                }    // end of stage ('Run same test through selenium') block
-                
-	    }   //end of mycontainer.inside block
-	}  // end of stage ('docker container') block
-    }   //end of elastest block
-}   //end of node block
+    try {
+        elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 7) {
+            def elastest_url = ''
+            stage ('docker container')
+                def mycontainer = docker.image('elastest/ci-docker-e2e:latest')
+                mycontainer.pull()
+                mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+                    sh 'env'
+                    stage ('prepare test')
+                        git 'https://github.com/elastest/elastest-torm.git'
+                        elastest_url = env.ET_SUT_PROTOCOL + '://' + env.ET_SUT_HOST + ':' + env.ET_SUT_PORT
+                        
+                    stage ("Run tests")
+         //               try {
+         //                 sh "cd e2e-test; mvn -B clean test -Dtest=io.elastest.etm.test.e2e.demoprojects.** -DetEtmApi=" + elastest_url + " -DeUser=${DEV_USER} -DePass=${DEV_PASS}"
+         //                } catch(err) {
+         //                   def errString = err.toString()
+         //                   currentBuild.result = getJobStatus(errString)
+         //                   throw err
+         //               } finally {
+         //                   step([$class: 'JUnitResultArchiver', testDataPublishers: [[$class: 'AttachmentPublisher']], testResults: '**/target/surefire-reports/TEST-*.xml'])
+         //               }
+                }
+        }
+    } catch (err) {
+        if (currentBuild.result != "UNSTABLE") {
+            def errString = err.toString()
+            echo 'Error: ' + errString
+            currentBuild.result = getJobStatus(errString)
+        }
+        echo 'Error!!! Send email to the people responsible for the builds.'
+        emailext body: 'Please go to  ${BUILD_URL}  and verify the build',
+        replyTo: '${BUILD_USER_EMAIL}', 
+        subject: 'Job ${JOB_NAME} - ${BUILD_NUMBER} RESULT: ${BUILD_STATUS}', 
+        to: '${MAIL_LIST}'
+
+        throw err
+    }
+}
+
+def getJobStatus(exceptionString) {
+    def status = 'SUCCESS'
+    if (exceptionString.contains('exit code 1')) {
+        status = 'FAILURE'
+    } else {
+        status = 'ABORTED'
+    }
+    return status;
+}
