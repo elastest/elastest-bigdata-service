@@ -14,7 +14,7 @@ node('et_in_et'){
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest_url = env.ET_SUT_PROTOCOL + "://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
                       
-                    stage ("Run tests")
+            stage ("Run tests")
 					{
                     try {
                         sh "cd e2e-test;python3 e2etest.py ${elastest_url}"
@@ -22,8 +22,20 @@ node('et_in_et'){
                         	echo 'Err: ' + e.toString()
 									}    
 					}  //end of "Run Tests" block
-                }
-        }
+                
+
+		stage ('Run same test through selenium')
+                {
+                    try {
+                        sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
+                    } catch(e) {
+                        echo 'Err: ' + e.toString()
+                    }
+                }    // end of stage ('Run same test through selenium') block 
+
+
+		}
+ }
     } catch (err) {
         if (currentBuild.result != "UNSTABLE") {
             def errString = err.toString()
