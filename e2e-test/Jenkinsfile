@@ -16,7 +16,7 @@ node('et_in_et'){
 					{
                     try {
                     //    sh "cd e2e-test;python e2etest.py ${elastest_url}"
-			  sh "python --version" 
+			  sh "python3 --version" 
 						} catch(e) {
                         	echo 'Err: ' + e.toString()
 									}    
