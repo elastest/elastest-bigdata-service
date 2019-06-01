@@ -1,6 +1,7 @@
 ######################
 # Author: Nick Gavalas
 # 2/3/2019 fixed by Kimon Moschandreou
+# 1/6/2019 use EUS
 ######################
 
 from selenium import webdriver
@@ -22,16 +23,26 @@ wget -q https://norvig.com/big.txt
 hadoop fs -rmr /out.txt 
 hadoop fs -rm /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
-
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 hadoop fs -getmerge /out.txt ./out.txt
-
 head -20 out.txt
 """
-options = webdriver.ChromeOptions()
-options.add_argument('headless')
-driver = webdriver.Chrome(chrome_options=options)
-driver.get(url)
+
+#setup Chrome WebDriver
+	options = webdriver.ChromeOptions()
+	options.add_argument('headless')
+	options.add_argument('--no-sandbox')
+	capabilities = options.to_capabilities()
+	try:
+		eusUrl=os.environ['ET_EUS_API']
+		print("EUS URL is: "+str(eusUrl))
+		driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
+	except:
+		print("ERROR (Ignorable): EUS environment variable could not be read")
+		#driver = webdriver.Chrome()
+		driver = webdriver.Chrome(chrome_options=options)
+
+
 
 # Navigate to projects
 # this is normally not necessary, but this method was selected in order to
@@ -96,4 +107,3 @@ else:
     exit(1)
 
 driver.close()
-
