@@ -8,7 +8,7 @@ node('et_in_et'){
                 mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
                     sh 'env'
                     stage ('prepare test')
-                        git 'https://github.com/elastest/elastest-bigdata-service.git
+                        git 'https://github.com/elastest/elastest-bigdata-service.git'
                         elastest_url = env.ET_SUT_PROTOCOL + '://' + env.ET_SUT_HOST + ':' + env.ET_SUT_PORT
                         '
                     stage ("Run tests")
