@@ -1,51 +1,118 @@
-node('et_in_et'){
-    try {
-        elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: 'ETinET', sut: 7) {
-            def elastest_url = ''
-            stage ('docker container')
-                def mycontainer = docker.image('elastest/ci-docker-e2e:latest')
-                mycontainer.pull()
-                mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
-                    sh 'env'
-		    sh 'apt-get -y install python3-pip'
-		    sh 'apt-get -y install python3-setuptools'
-		    sh 'pip3 install requests'	
-            stage ('prepare test')
-                        git 'https://github.com/elastest/elastest-bigdata-service.git'
-                        elastest_url = env.ET_SUT_PROTOCOL + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
-                      
-                    stage ("Run tests")
-					{
-                    try {
-                        sh "cd e2e-test;python3 e2etest.py ${elastest_url}"
-			} catch(e) {
-                        	echo 'Err: ' + e.toString()
-									}    
-					}  //end of "Run Tests" block
-                }
-        }
-    } catch (err) {
-        if (currentBuild.result != "UNSTABLE") {
-            def errString = err.toString()
-            echo 'Error: ' + errString
-            currentBuild.result = getJobStatus(errString)
-        }
-        echo 'Error!!! Send email to the people responsible for the builds.'
-        emailext body: 'Please go to  ${BUILD_URL}  and verify the build',
-        replyTo: '${BUILD_USER_EMAIL}', 
-        subject: 'Job ${JOB_NAME} - ${BUILD_NUMBER} RESULT: ${BUILD_STATUS}', 
-        to: '${MAIL_LIST}'
+import json
+import requests
+import time
+import sys
 
-        throw err
-    }
-}
+# create a dummy project
+url = sys.argv[1]
+res = requests.get(url)
+data = json.dumps({"id": 666, "name": "EBSE2E"})
+headers = {'content-type': 'application/json'}
+res = requests.post(url+'/api/project', data=data, headers=headers)
+print(res.text)
+print(json.loads(res.text))
 
-def getJobStatus(exceptionString) {
-    def status = 'SUCCESS'
-    if (exceptionString.contains('exit code 1')) {
-        status = 'FAILURE'
-    } else {
-        status = 'ABORTED'
-    }
-    return status;
-}
+
+# create a tjob in the project
+COMMANDS = """
+git clone https://github.com/elastest/demo-projects.git
+cd demo-projects/ebs-test
+mvn -q package
+rm -f big.txt
+wget -q https://norvig.com/big.txt
+hadoop fs -rmr /out.txt 
+hadoop fs -rm /big.txt
+hadoop fs -copyFromLocal big.txt /big.txt
+spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
+hadoop fs -getmerge /out.txt ./out.txt
+head -20 out.txt
+"""
+
+tjob=json.dumps({ "id": 0,
+  "name": "demotjob",
+  "imageName": "elastest/ebs-spark:latest",
+  #"sut": '',
+  "project": json.loads(res.text),
+  "tjobExecs": [],
+  "parameters": [],
+ # "commands": "git clone https://github.com/elastest/demo-projects.git\r\ncd demo-projects/ebs-test\r\nmvn package\r\nrm -f big.txt\r\nwget https://norvig.com/big.txt\r\n#clean the pre-existing file\r\nhadoop fs  -rmr /out.txt\r\nhadoop fs -rmr /big.txt\r\nhadoop fs -copyFromLocal big.txt /big.txt\r\nspark-submit --class org.sparkexample.WordCountTask --master spark://spark:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt\r\nhadoop fs -getmerge /out.txt ./out.txt\r\nhead -10 out.txt",
+  "commands": COMMANDS,
+  "esmServicesString": "[{\"id\":\"a1920b13-7d11-4ebc-a732-f86a108ea49c\",\"name\":\"EBS\",\"selected\":true},{\"id\":\"fe5e0531-b470-441f-9c69-721c2b4875f2\",\"name\":\"EDS\",\"selected\":false},{\"id\":\"af7947d9-258b-4dd1-b1ca-17450db25ef7\",\"name\":\"ESS\",\"selected\":false},{\"id\":\"29216b91-497c-43b7-a5c4-6613f13fa0e9\",\"name\":\"EUS\",\"selected\":false},{\"id\":\"bab3ae67-8c1d-46ec-a940-94183a443825\",\"name\":\"EMS\",\"selected\":false}]",
+  "esmServices": [
+      {
+          "id": "a1920b13-7d11-4ebc-a732-f86a108ea49c",
+          "name": "EBS",
+          "selected": True
+      },
+      {
+          "id": "fe5e0531-b470-441f-9c69-721c2b4875f2",
+          "name": "EDS",
+          "selected": False
+      },
+      {
+          "id": "af7947d9-258b-4dd1-b1ca-17450db25ef7",
+          "name": "ESS",
+          "selected": False
+      },
+      {
+          "id": "29216b91-497c-43b7-a5c4-6613f13fa0e9",
+          "name": "EUS",
+          "selected": False
+      },
+      {
+          "id": "bab3ae67-8c1d-46ec-a940-94183a443825",
+          "name": "EMS",
+          "selected": False
+      }
+  ],
+  })
+res = requests.post(url+'/api/tjob', headers=headers, data=tjob)
+resjson = res.json()
+tjobid = resjson['id']
+print(resjson['id'])
+
+
+# run the tjob
+data = {"tJobParams": []}
+res = requests.post(url + '/api/tjob/' + str(tjobid) + '/exec', headers=headers, json=data)
+print(res.text)
+
+
+# probe for results
+# s = requests.Session()
+# exec_resp = s.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
+exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
+print(exec_resp.text)
+execId = json.loads(exec_resp.text)["monitoringIndex"]
+#execId = json.loads(exec_resp.text)["logIndex"]
+
+TSS_MAX_WAIT = 600 #10 minute max wait time
+while ("FAIL" != str(json.loads(exec_resp.text)["result"]).strip()) and ("SUCCESS" != str(json.loads(exec_resp.text)["result"]).strip()) and (TSS_MAX_WAIT > 0):
+    print(("TJob execution status is: "+str(json.loads(exec_resp.text)["result"])))
+    exec_resp = requests.get(url + "/api/tjob/" + str(tjobid) + "/exec/" + str(json.loads(res.text)["id"]))
+    time.sleep(5)
+    TSS_MAX_WAIT = TSS_MAX_WAIT - 5
+
+
+# exit successfully
+if "SUCCESS" in str(json.loads(exec_resp.text)["result"]):
+    # print exec_resp.text
+    print("TJob execution successful")
+    # fetch the logs
+    res = requests.post(url + '/elasticsearch/' + str(execId) + '/_search?size=8000', headers=headers) 
+    reson = json.loads(res.text)
+    exit(0)
+
+# or exit with failure
+elif "FAIL" in str(json.loads(exec_resp.text)["result"]):
+    # print exec_resp.text
+    print("TJob execution failed")
+    print("exit status: " + exec_resp.text)
+    # fetch the logs
+    res = requests.post(url + '/elasticsearch/' + str(execId) + '/_search?size=8000', headers=headers) 
+    reson = json.loads(res.text)
+    exit(1)
+
+elif TSS_MAX_WAIT <= 0: 
+    print("timed out waiting for TSS to start")
+    exit(1)
