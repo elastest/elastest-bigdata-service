@@ -23,10 +23,8 @@ wget -q https://norvig.com/big.txt
 hadoop fs -rmr /out.txt 
 hadoop fs -rm /big.txt
 hadoop fs -copyFromLocal big.txt /big.txt
-
 spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster:7077 /demo-projects/ebs-test/target/hadoopWordCount-1.0-SNAPSHOT.jar /big.txt
 hadoop fs -getmerge /out.txt ./out.txt
-
 head -20 out.txt
 """
 
