@@ -12,7 +12,7 @@ node('et_in_et'){
 		    sh 'pip3 -q install requests'	
             stage ('prepare test')
                         git 'https://github.com/elastest/elastest-bigdata-service.git'
-                        elastest_url = env.ET_SUT_PROTOCOL + '://' + env.ET_SUT_HOST + ':' + env.ET_SUT_PORT
+                        elastest_url = env.ET_SUT_PROTOCOL + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
                       
                     stage ("Run tests")
 					{
