@@ -1,6 +1,7 @@
 ######################
 # Author: Nick Gavalas
 # 2/3/2019 fixed by Kimon Moschandreou
+# 1/6/2019 use EUS
 ######################
 
 from selenium import webdriver
