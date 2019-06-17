@@ -32,17 +32,10 @@ def e2etests():
 	options.add_argument('headless')
 	options.add_argument('--no-sandbox')
 	capabilities = options.to_capabilities()
-	try:
-		eusUrl=os.environ['ET_EUS_API']
-		print("EUS URL is: "+str(eusUrl))
-		driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
-	except:
-		print("ERROR (Ignorable): EUS environment variable could not be read")
-		#driver = webdriver.Chrome()
-		driver = webdriver.Chrome(chrome_options=options)
-
-
-
+	eusUrl=os.environ['ET_EUS_API']
+	print("EUS URL is: "+str(eusUrl))
+	driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
+	
 # Navigate to projects
 # this is normally not necessary, but this method was selected in order to
 # avoid E2E test issues in case the 'New Project' button is removed from the
