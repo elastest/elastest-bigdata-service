@@ -78,15 +78,15 @@ def e2etests():
 	TSS_MAX_WAIT  = 300
 # check for success.
 	while TSS_MAX_WAIT > 0:
-    	try:
+    		try:
         # res = driver.find_element_by_xpath("//etm-dashboard/div[1]/div/md-card/md-card-content/div/span[1]/span[1][ contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
-        	res = driver.find_element_by_xpath("//span/h4[contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
-        	print(res.text)
-        	break
-    	except selenium.common.exceptions.NoSuchElementException:
-        	print("waiting for job to finish")
-        	time.sleep(20)
-        	TSS_MAX_WAIT = TSS_MAX_WAIT - 20
+        		res = driver.find_element_by_xpath("//span/h4[contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
+        		print(res.text)
+        		break
+    		except selenium.common.exceptions.NoSuchElementException:
+        		print("waiting for job to finish")
+        		time.sleep(20)
+        		TSS_MAX_WAIT = TSS_MAX_WAIT - 20
 
 
 	if 'SUCCESS' in res.text:
