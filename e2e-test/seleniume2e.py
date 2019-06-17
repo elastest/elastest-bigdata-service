@@ -27,7 +27,7 @@ hadoop fs -getmerge /out.txt ./out.txt
 head -20 out.txt
 """
 
-#setup Chrome WebDriver
+	#setup Chrome WebDriver
 	options = webdriver.ChromeOptions()
 	options.add_argument('headless')
 	options.add_argument('--no-sandbox')
