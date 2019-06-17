@@ -26,7 +26,7 @@ spark-submit --class org.sparkexample.WordCountTask --master spark://sparkmaster
 hadoop fs -getmerge /out.txt ./out.txt
 head -20 out.txt
 """
-
+def e2etests():
 	#setup Chrome WebDriver
 	options = webdriver.ChromeOptions()
 	options.add_argument('headless')
