@@ -41,9 +41,9 @@ node('et_in_et'){
         }
         echo 'Error!!! Send email to the people responsible for the builds.'
         emailext body: 'Please go to  ${BUILD_URL}  and verify the build',
-        replyTo: 'kimonas@gmail.com', 
+        replyTo: '${BUILD_USER_EMAIL}', 
         subject: 'Job ${JOB_NAME} - ${BUILD_NUMBER} RESULT: ${BUILD_STATUS}', 
-        to: 'kimonas@gmail.com'
+        to: '${MAIL_LIST}'
 
         throw err
     }
