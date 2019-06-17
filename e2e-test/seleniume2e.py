@@ -32,7 +32,6 @@ def e2etests():
 	options.add_argument('headless')
 	options.add_argument('--no-sandbox')
 	capabilities = options.to_capabilities()
-	print("Options: "+str(options))
 	try:
 		eusUrl=os.environ['ET_EUS_API']
 		print("EUS URL is: "+str(eusUrl))
