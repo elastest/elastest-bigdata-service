@@ -6,6 +6,7 @@
 from selenium import webdriver
 import time
 import sys
+import os
 import selenium
 
 # TODO: Substitute timers with webdriverwaits.
