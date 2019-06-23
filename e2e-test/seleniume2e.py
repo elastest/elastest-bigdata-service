@@ -37,18 +37,6 @@ f = open("output.txt", "a")
 print("EUS URL is: "+str(eusUrl), file=open("output.txt", "a"))
 driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
 
-# Navigate to projects
-# this is normally not necessary, but this method was selected in order to
-# avoid E2E test issues in case the 'New Project' button is removed from the
-# main screen.
-time.sleep(5)
-elemProjects = driver.find_element_by_id('nav_projects')
-if not elemProjects.is_displayed():
-    elemMenu = driver.find_element_by_id("main_menu").click()
-    time.sleep(1) # delay to allow menu animation to complete.
-elemProjects.click()
-time.sleep(1)
-
 # create new project
 driver.find_element_by_xpath("//button[contains(string(), 'New Project')]").click()
 driver.find_element_by_name("project.name").send_keys(projectname)
