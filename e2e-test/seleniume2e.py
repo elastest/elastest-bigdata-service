@@ -32,7 +32,7 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--no-sandbox')
 capabilities = options.to_capabilities()
-export eusUrl=os.environ['ET_EUS_API']
+eusUrl=os.environ['ET_EUS_API']
 f = open("output.txt", "a")
 print("EUS URL is: "+str(eusUrl), file=open("output.txt", "a"))
 driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
