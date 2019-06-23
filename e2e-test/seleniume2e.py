@@ -3,11 +3,11 @@
 # 2/3/2019 fixed by Kimon Moschandreou
 ######################
 
-from selenium import webdriver
 import time
 import sys
 import os
 import selenium
+from selenium import webdriver
 
 # TODO: Substitute timers with webdriverwaits.
 url = sys.argv[1]
@@ -32,8 +32,9 @@ options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--no-sandbox')
 capabilities = options.to_capabilities()
-eusUrl=os.environ['ET_EUS_API']
-print("EUS URL is: "+str(eusUrl))
+export eusUrl=os.environ['ET_EUS_API']
+f = open("output.txt", "a")
+print("EUS URL is: "+str(eusUrl), file=open("output.txt", "a"))
 driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
 
 # Navigate to projects
