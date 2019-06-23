@@ -38,7 +38,7 @@ print("EUS URL is: "+str(eusUrl), file=open("output.txt", "a"))
 driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
 
 # create new project
-driver.find_element_by_xpath("//button[contains(string(), 'New Project')]").click()
+driver.find_element_by_id("newProjectBtn").click()
 driver.find_element_by_name("project.name").send_keys(projectname)
 driver.find_element_by_xpath("//button[contains(string(), 'SAVE')]").click()
 time.sleep(1)
