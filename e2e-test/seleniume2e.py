@@ -39,7 +39,7 @@ driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabili
 
 # create new project
 time.sleep(5)
-element=driver.find_element_by_id("newProjectBtn")
+element=driver.find_element_by_xpath("//button[contains(string(), 'New Project')]")
 element.click()
 time.sleep(5)
 driver.find_element_by_name("project.name").send_keys(projectname)
