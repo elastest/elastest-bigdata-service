@@ -70,7 +70,7 @@ while TSS_MAX_WAIT > 0:
         res = driver.find_element_by_xpath("//span/h4[contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
         print("print result:" + str(res.text))
         break
-    except selenium.common.exceptions.NoSuchElementException:
+    except (selenium.common.exceptions.NoSuchElementException, selenium.common.exceptions.WebDriverException):
         print("waiting for job to finish")
         time.sleep(20)
         TSS_MAX_WAIT = TSS_MAX_WAIT - 20
