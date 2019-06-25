@@ -63,7 +63,7 @@ driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
 
 # default wait 10 minutes
-TSS_MAX_WAIT  = 300
+TSS_MAX_WAIT  = 600
 # check for success.
 while TSS_MAX_WAIT > 0:
     try:
