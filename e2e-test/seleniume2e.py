@@ -63,26 +63,19 @@ driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
 
 # default wait 10 minutes
-TSS_MAX_WAIT  = 600
+TSS_MAX_WAIT  = 300
 # check for success.
-while TSS_MAX_WAIT > 0:
-    try:
-        res = driver.find_element_by_xpath("//span/h4[contains(string(), 'SUCCESS') or contains(string(), 'ERROR') or contains(string(), 'FAIL') ]")
-        print("print result:" + str(res.text))
-        break
-    except (selenium.common.exceptions.NoSuchElementException, selenium.common.exceptions.WebDriverException):
-        print("waiting for job to finish")
-        time.sleep(20)
-        TSS_MAX_WAIT = TSS_MAX_WAIT - 20
-
-
-if 'SUCCESS' in res.text:
-    print('job succeeded')
-    print(res.text)
-    exit(0)
-else:
-    print('job failed')
-    print(res.text)
-    exit(1)
+try:
+	element = driver.find_element_by_id('resultMsgText')
+	printed=True
+	while(element.text!="Executing Test" or element.text!="Failed" or element.text!="Finish"):
+			if(printed==True):
+				print("\to. Waiting for tjob execution to complete")
+				printed=False
+			else:
+				continue
+except:
+	print("\tp. TJob Execution must have finished")
+	time.sleep(4)
 
 driver.close()
