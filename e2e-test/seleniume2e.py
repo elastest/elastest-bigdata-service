@@ -68,13 +68,11 @@ TSS_MAX_WAIT  = 300
 while TSS_MAX_WAIT > 0:
 	try:
 		element = driver.find_element_by_id('resultMsgText')
-		print("\t TJob Execution Result: "+element.text)
 		if (element.text=="Executing Test" or element.text=="Starting Test Support Service: EBS" or element.text=="Starting Dockbeat to get metrics..."):
 			print("\t Waiting for tjob execution to complete")
 			time.sleep(20)
 			TSS_MAX_WAIT = TSS_MAX_WAIT - 20
 			element = driver.find_element_by_id('resultMsgText')
-			print("\t TJob Execution Result: "+element.text)
 			continue
 		else:
 			print("\t TJob Execution Result: "+element.text)
