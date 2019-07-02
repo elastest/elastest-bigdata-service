@@ -69,11 +69,9 @@ try:
 	element = driver.find_element_by_id('resultMsgText')
 	printed=True
 	while(element.text!="Executing Test" or element.text!="Failed" or element.text!="Finish"):
-			if(printed==True):
-				print("\t Waiting for tjob execution to complete")
-				printed=False
-			else:
-				continue
+			print("\t Waiting for tjob execution to complete")
+			time.sleep(10)
+			continue
 except:
 	print("\t TJob Execution must have finished")
 	time.sleep(4)
