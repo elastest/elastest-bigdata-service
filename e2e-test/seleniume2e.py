@@ -70,12 +70,12 @@ try:
 	printed=True
 	while(element.text!="Executing Test" or element.text!="Failed" or element.text!="Finish"):
 			if(printed==True):
-				print("\to. Waiting for tjob execution to complete")
+				print("\t Waiting for tjob execution to complete")
 				printed=False
 			else:
 				continue
 except:
-	print("\tp. TJob Execution must have finished")
+	print("\t TJob Execution must have finished")
 	time.sleep(4)
 
 driver.close()
