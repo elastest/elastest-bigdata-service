@@ -74,8 +74,11 @@ while TSS_MAX_WAIT > 0:
 			TSS_MAX_WAIT = TSS_MAX_WAIT - 20
 			element = driver.find_element_by_id('resultMsgText')
 			continue
+		else:
+			print("\t TJob Execution Result: "+element.text)
+			break
 	except:
-		print("\t TJob Execution must have finished")
+		print("\t Something is wrong")
 		break
 
 
