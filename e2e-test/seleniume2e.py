@@ -62,17 +62,19 @@ time.sleep(1)
 driver.find_element_by_xpath("//button[@title='Run TJob']").click()
 time.sleep(10)
 
-# default wait 10 minutes
+# default max wait 5 minutes
 TSS_MAX_WAIT  = 300
 # check for success.
 while TSS_MAX_WAIT > 0:
 	try:
 		element = driver.find_element_by_id('resultMsgText')
+		print("\t TJob Execution Result: "+element.text)
 		if (element.text!="Executing Test" or element.text!="Failed" or element.text!="Finish"):
 			print("\t Waiting for tjob execution to complete")
 			time.sleep(20)
 			TSS_MAX_WAIT = TSS_MAX_WAIT - 20
 			element = driver.find_element_by_id('resultMsgText')
+			print("\t TJob Execution Result: "+element.text)
 			continue
 		else:
 			print("\t TJob Execution Result: "+element.text)
