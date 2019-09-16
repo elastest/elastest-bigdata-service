@@ -8,7 +8,7 @@ import sys
 import os
 import selenium
 from selenium import webdriver
-
+print selenium.__version__
 # TODO: Substitute timers with webdriverwaits.
 url = sys.argv[1]
 projectname = 'deleteme'
