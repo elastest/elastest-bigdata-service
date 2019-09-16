@@ -34,8 +34,6 @@ options.add_argument('--no-sandbox')
 capabilities = options.to_capabilities()
 eusUrl=os.environ['ET_EUS_API']
 print("EUS URL is: "+str(eusUrl))
-print(selenium.__version__)
-
 driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
 driver.get(url)
 # create new project
