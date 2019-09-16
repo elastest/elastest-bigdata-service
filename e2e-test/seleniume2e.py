@@ -31,7 +31,7 @@ head -20 out.txt
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--no-sandbox')
-capabilities = caps.update(chrome_options.to_capabilities())
+capabilities = caps.update(options.to_capabilities())
 eusUrl=os.environ['ET_EUS_API']
 print("EUS URL is: "+str(eusUrl))
 print(capabilities)
