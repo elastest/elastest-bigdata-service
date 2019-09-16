@@ -34,9 +34,8 @@ options.add_argument('--no-sandbox')
 capabilities = options.to_capabilities()
 eusUrl=os.environ['ET_EUS_API']
 print("EUS URL is: "+str(eusUrl))
-print(capabilities)
-driver = webdriver.Remote(desired_capabilities=capabilities, command_executor=url)
-# driver.get(url)
+driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
+driver.get(url)
 # create new project
 time.sleep(5)
 element=driver.find_element_by_xpath("//button[contains(string(), 'New Project')]")
