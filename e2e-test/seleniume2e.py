@@ -31,11 +31,11 @@ head -20 out.txt
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 options.add_argument('--no-sandbox')
-capabilities = options.to_capabilities()
+capabilities = update(options.to_capabilities())
 eusUrl=os.environ['ET_EUS_API']
 print("EUS URL is: "+str(eusUrl))
 print(capabilities)
-driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=update(chrome_options.to_capabilities()))
+driver = webdriver.Remote(command_executor=eusUrl, desired_capabilities=capabilities)
 driver.get(url)
 # create new project
 time.sleep(5)
