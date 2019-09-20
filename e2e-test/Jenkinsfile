@@ -26,7 +26,7 @@ node('et_in_et') {
                     } catch(e) {
                         echo 'Err: ' + e.toString()
                     }
-                }    // end of stage ('Run same test through selenium') block 
+                }    end of stage ('Run same test through selenium') block 
 
 
 		}
