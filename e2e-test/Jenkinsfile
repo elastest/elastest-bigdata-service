@@ -1,36 +1,34 @@
-
 def elastest_url = ''
 node('et_in_et') {
+    try{
+        stage ('set up')
+        
+        def elastest_id_str  = "${ELASTEST_SUT_ID}"
+        echo elastest_id_str
+        def sut_id = elastest_id_str.toInteger() 
+        def elastest_project_name = "${ELASTEST_PROJECT_NAME}"
     
-    stage ('set up')
-    
-    def elastest_id_str  = "${ELASTEST_SUT_ID}"
-    echo elastest_id_str
-    def sut_id = elastest_id_str.toInteger() 
-    def elastest_project_name = "${ELASTEST_PROJECT_NAME}"
-    
-    elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: elastest_project_name, sut: sut_id) {
-            stage ('docker container')
-                def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
-                mycontainer.pull()
-                mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
-                    sh 'env | sort'
-            stage ('prepare test')
-                        git 'https://github.com/elastest/elastest-bigdata-service.git'
-                        elastest_url = env.ET_SUT_PROTOCOL + "://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
-                      
-		stage ('Run test through selenium')
-                {
-                    try {
-                        sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
-                    } catch(e) {
-                        echo 'Err: ' + e.toString()
-                    }
-                }    end of stage ('Run same test through selenium') block 
-
-
-		}
- }
+        elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: elastest_project_name, sut: sut_id) {
+			def elastest_url = ''
+			stage ('docker container')
+				def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
+				mycontainer.pull()
+				mycontainer.inside("-u root -v /var/run/docker.sock:/var/run/docker.sock:rw -v /dev/shm:/dev/shm")  {
+					sh 'env | sort'
+			stage ('prepare test')
+						git 'https://github.com/elastest/elastest-bigdata-service.git'
+						elastest_url = env.ET_SUT_PROTOCOL + "://" + env.SHARED_ELASTEST_USER +":"+ env.SHARED_ELASTEST_PASS+"@"+env.ET_SUT_HOST+":"+env.ET_SUT_PORT
+					  
+			stage ('Run test through selenium')
+				{
+					try {
+						sh "cd e2e-test;python seleniume2e.py ${elastest_url}"
+					} catch(e) {
+						echo 'Err: ' + e.toString()
+					}
+				}    // end of stage ('Run same test through selenium') block 
+            }
+        }
     } catch (err) {
         if (currentBuild.result != "UNSTABLE") {
             def errString = err.toString()
