@@ -9,7 +9,6 @@ node('et_in_et') {
         def elastest_project_name = "${ELASTEST_PROJECT_NAME}"
     
         elastest(tss: ['EUS'], surefireReportsPattern: '**/target/surefire-reports/TEST-*.xml', project: elastest_project_name, sut: sut_id) {
-			def elastest_url = ''
 			stage ('docker container')
 				def mycontainer = docker.image('elastest/ci-docker-e2e-compose-py:latest')
 				mycontainer.pull()
