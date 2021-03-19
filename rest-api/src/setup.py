@@ -33,7 +33,7 @@ REQUIRES = [
     'idna==2.6',
     'isort==4.2.15',
     'itsdangerous==0.24',
-    'Jinja2==2.9.6',
+    'Jinja2==2.11.3',
     'jsonschema==2.6.0',
     'lazy-object-proxy==1.3.1',
     'MarkupSafe==1.0',
