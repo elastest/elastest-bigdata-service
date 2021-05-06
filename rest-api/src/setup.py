@@ -27,7 +27,7 @@ REQUIRES = [
     'configparser==3.5.0',
     'enum34==1.1.6',
     'Flask==0.12.2',
-    'Flask-Cors==3.0.3',
+    'Flask-Cors==3.0.9',
     'flask-restplus==0.10.1',
     'functools32==3.2.3.post2',
     'idna==2.6',
